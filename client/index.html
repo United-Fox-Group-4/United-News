@@ -108,84 +108,76 @@
 <!--  Home  -->
   <div class="container h-100 align-items-center afterLogin" style="max-width: 1200px;">
         <br>
-        <h2>Recomended For You:</h2>
+        <h2 id="title-for-user">Recomended For You:</h2>
         <form class="form-inline my-lg">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search" id="judul-berita">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <br>
         <div class="row">
+            <div class="col dataBerita">
+                
+              <!-- <div class="card">
+                  <div class="card-header">
+                    Featured
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">SNews 3</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
+                    <a href="#" class="btn btn-primary">Baca Berita</a>
+                  </div>
+                </div> -->
 
-            <div class="col">
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">News 1</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aut ipsum
-                                pariatur eos, aliquid ex cupiditate sapiente unde. Quod, ullam.</p>
-                            <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">News 2</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-                                nostrum earum dolor voluptatem voluptatum optio ratione eaque ullam iste expedita.</p>
-                            <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            Featured
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">SNews 3</h5>
-                            <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum
-                                repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
-                            <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col">
                 <div>
-                    <div class="card border-primary mb-3">
-                        <div class="card-header">Nama User</div>
+                    <div class="card border-primary mb-3" >
+                        <div class="card-header" id="namaUser">Selamat datang kembali</div>
                         <div class="card-body text-primary">
 
                           <!-- <h5 class="card-title">Saved News: 5</h5> -->
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                         </div>
                     </div>
                 </div>
                 <!-- SAved Card -->
                 <div class="card">
                     <div class="card-header">
-                        Saved News
+                      <h3>Saved News :</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="saved-news">
+                      <!-- ISI dari DB -->
 
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <!-- Dummy html -->
+                      <!-- <div class="card ">
+                        <div class="card-header">
+                          web
+                        </div>
+                        <div class="card-body">
+                          <h4 class="card-title">${e.title}</h4>
+                          <p class="card-text">${e.description}</p>
+                          <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+                        </div>
+                        </div>  -->
                     </div>
-                    <!-- <button class="btn btn-primary">See All</button> -->
-            </div>
-        </div>
+                    <!-- <div class="card-body">
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                    </div> -->
+                    <button class="btn btn-primary" onclick="showSavedBerita(event)">See All</button>
+                </div>
+          </div> 
+    </div>
 
-        <!--define cdn query-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous"></script>
-        <!--require script function-->
-        <script src="script.js"></script>
+
+    <!--define cdn query-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <!--require script function-->
+    <script src="script.js"></script>
 
         <!--require Script API Google Oauth-->
         <script src="https://apis.google.com/js/platform.js" async defer></script>
