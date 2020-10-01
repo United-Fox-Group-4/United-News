@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--Client ID Google-->
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
 
     <meta charset="UTF-8">
+    <!--Bootsrtap 4-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Local CSS-->
     <link rel="stylesheet" href="style.css">
+
+    <!--Font-->
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Patua+One&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>United News</title>
 </head>
 
 <body>
@@ -66,14 +72,11 @@
                 </div>
                 <button type="submit" class="btn btn-dark">Login</button>
             </form>
+            <!--google sign button-->
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <br>
             <a onclick=>dont have account.. <a style="color:rgb(20, 20, 148);" onclick="register()">Register</a></a>
             <br>
-            <!--google sign button-->
-            <center>
-                <p>or login with your Google Account</p>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            </center>
         </div>
     </div>
 
@@ -85,7 +88,7 @@
             <form onsubmit="register(event)">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" id="username">
+                    <input type="text" class="form-control" id="full_name">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
@@ -95,81 +98,10 @@
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" class="form-control" id="password">
                 </div>
-                <button type="submit" onclick="beforeLogin()" class="btn btn-dark">Submit</button>
+                <button type="submit" onclick="" class="btn btn-dark">Submit</button>
                 <a class="btn btn-dark" onclick="beforeLogin()" href="#" role="button">cancel</a>
             </form>
         </div>
-    </div>
-  
-<!--  Home  -->
-  <div class="container h-100 align-items-center" style="max-width: 1200px;">
-        <br>
-        <h2>Recomended For You:</h2>
-        <form class="form-inline my-lg">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        <br>
-        <div class="row">
-
-            <div class="col">
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">News 1</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aut ipsum pariatur eos, aliquid ex cupiditate sapiente unde. Quod, ullam.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">News 2</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, nostrum earum dolor voluptatem voluptatum optio ratione eaque ullam iste expedita.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">SNews 3</h5>
-                          <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                </div>
-            </div>
-            <div class="col">
-                <div>
-                    <div class="card border-primary mb-3" >
-                        <div class="card-header">Nama User</div>
-                        <div class="card-body text-primary">
-                          <h5 class="card-title">Saved News: 5</h5>
-                          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        </div>
-                      </div>
-                </div>
-                <!-- SAved Card -->
-                <div class="card" >
-                    <div class="card-header">
-                      Saved News
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                    </div>
-                    <button class="btn btn-primary">See All</button>
-            </div>
-          </div>
     </div>
 
     <!--define cdn query-->
@@ -181,6 +113,12 @@
 
     <!--require Script API Google Oauth-->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-
 </body>
+
 </html>
+
+<!--
+     fonts source :
+     font-family: 'Patua One', cursive;
+     embed: <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Patua+One&display=swap" rel="stylesheet">
+ -->
