@@ -142,7 +142,7 @@ class UserController {
                 title: data3.data.articles[0].title,
                 description: data3.data.articles[0].summary,
                 publishedAt: data3.data.articles[0].published_date.slice(0, 10),
-                news_url: data3.data.articles[0].url
+                news_url: data3.data.articles[0].link
             })
             res.status(200).json(results)
         } catch(err) {
