@@ -38,15 +38,15 @@ module.exports = (sequelize, DataTypes) => {
 					},
 				},
 			},
-			folder: {
+			tag: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
 					notEmpty: {
-						msg: "Folder cannot be empty",
+						msg: "Tag cannot be empty",
 					},
 					notNull: {
-						msg: "Folder Date cannot be empty",
+						msg: "Tag Date cannot be empty",
 					},
 				},
 			},

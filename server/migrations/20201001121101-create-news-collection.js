@@ -17,7 +17,7 @@ module.exports = {
 			publishedAt: {
 				type: Sequelize.DATEONLY,
 			},
-			folder: {
+			tag: {
 				type: Sequelize.STRING,
 			},
 			createdAt: {
