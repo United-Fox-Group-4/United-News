@@ -9,7 +9,7 @@ United News is an application to aggregate new from several sources. this app ha
 
 ## RESTful endpoints
 
-### POST /login
+### POST user/login
 
 > Login to Application
 
@@ -104,7 +104,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### POST /register
+### POST user/register
 
 > Register a User
 
@@ -131,7 +131,8 @@ _Response (201 - Created)_
 ```
 {
     "id": <given id by system>,
-    "email": "<user email>"
+    "email": "<user email>",
+    "full_name": "<user full name>",
 }
 ```
 

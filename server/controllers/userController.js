@@ -23,7 +23,23 @@ class UserController {
     }
 
     static login(req, res, next) {
+        const userBody = {
+			email: req.body.email,
+			password: req.body.password,
+		};
 
+		User.findOne({ where: { email: userBody.email } })
+			.then((data) => {
+				if (data && comparePass(userBody.password, data.password)) {
+					const access_token = signToken({ id: data.id, email: data.email });
+					res.status(201).json({ id: data.id, email: data.email, access_token });
+				} else {
+					res.status(401).json({ message: "Invalid email or password" });
+				}
+			})
+			.catch((err) => {
+				next(err);
+			});
     }
 }
 
