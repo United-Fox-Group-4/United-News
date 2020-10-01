@@ -638,3 +638,71 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
+
+### POST /user/collection/
+
+> Change tag of the news
+
+_Request Header_
+
+```
+{
+    "Content-Type": "application/json",
+    "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+{
+    "title": "<news title>",
+    "description": "<news description>",
+    "publishedAt": "<news status>",
+    "news_url": "<original news link>",
+    "tag": "<news tag name>",
+}
+```
+
+_Response (200)_
+
+```
+{
+    "id": <news id>,
+    "title": "<news title>",
+    "description": "<news description>",
+    "publishedAt": "<news status>",
+    "news_url": "<original news link>",
+    "UserId": "<creator user id>",
+    "tag": "<news tag name>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+}
+
+```
+
+_Response (400 - Bad Request)_
+
+```
+{
+    "message": "<validation error message>"
+}
+```
+
+_Response (401 - Unauthorized)_
+
+```
+{
+    "message": "You do not have access"
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```
+{
+    "message": "<error messages>"
+}
+```
+
+---
