@@ -1,0 +1,52 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    height: auto;
+  }
+  
+  /* Header/Logo Title */
+  .banner {
+    padding: 100px;
+    text-align: center;
+    background-image: url("https://images.unsplash.com/photo-1591534180437-507029f6ee60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1049&q=80");
+    background-size: cover;
+    color: rgb(29, 28, 28);
+    font-size: 30px;
+    height: 850px;
+    display: block;
+    margin: auto;
+  }
+
+  .box-banner{
+    margin: 0 auto;
+    background-color:transparent;
+    font-family: 'Patua One', cursive;
+    margin-top: 100px;
+    height: 400px;
+    width: 30%;
+    min-width: 30%;
+    padding: 20px;
+  }
+
+  .box-banner h1{
+      font-size: 1.4em;
+      line-height: 80%;
+      text-align: center;
+  }
+
+  .box-login{
+      margin: 0 auto;
+      background-color: transparent;
+      width: 30%;
+      text-align: center;
+      margin-top: 100px;
+      font-family: 'Patua One', cursive;
+  }
+  
+  /* Page Content */
+  .content {padding:20px;}
+
+
+  .jumbotron {
+    background: none
+}
