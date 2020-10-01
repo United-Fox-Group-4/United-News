@@ -1,4 +1,4 @@
-const { User } = require('../models/index')
+const { User, NewsCollection } = require('../models/index')
 const { comparePass } = require('../helpers/bcrypt')
 const { signToken } = require('../helpers/jwt')
 const axios = require("axios");
@@ -92,6 +92,91 @@ class UserController {
             next(err)
         }
     }
+
+    static addNewsCollection(req, res, next) {
+        const newsData = {
+			title: req.body.title,
+			description: req.body.description,
+			publishedAt: req.body.publishedAt,
+            news_url: req.body.news_url,
+            tag: req.body.tag,
+			UserId: req.userData.id,
+		};
+
+		NewsCollection.create(newsData)
+			.then((data) => {
+				res.status(201).json(data);
+			})
+			.catch((err) => {
+				next(err);
+			});
+    }
+
+    static getAllCollection(req, res, next) {
+        NewsCollection.findAll({ where: { UserId: req.userData.id } })
+			.then((data) => {
+				res.status(200).json(data);
+			})
+			.catch((err) => {
+				next(err);
+			});
+    }
+
+    static getCollectionById(req, res, next) {
+        NewsCollection.findOne({ where: { id: req.params.id } })
+			.then((data) => {
+				res.status(200).json(data);
+			})
+			.catch((err) => {
+				next(err);
+			});
+    }
+
+    static getCollectionByTag(req, res, next) {
+        NewsCollection.findAll({ where: { tag: req.params.tag, UserId: req.userData.id} })
+			.then((data) => {
+				res.status(200).json(data);
+			})
+			.catch((err) => {
+				next(err);
+			});
+    }
+
+    static async changeTag(req, res, next) {
+        try {
+			const editBody = {
+				tag: req.body.tag,
+			};
+
+			const isUpdateSuccess = await NewsCollection.update(editBody, {
+				where: { id: +req.params.id },
+			});
+
+			if (!isUpdateSuccess[0]) {
+				next({ name: "NotFound" });
+			} else {
+				res.status(200).json(await NewsCollection.findByPk(+req.params.id));
+			}
+		} catch (err) {
+			next(err);
+		}
+    }
+
+    static deleteNews(req, res, next) {
+		NewsCollection.destroy({
+			where: { id: +req.params.id },
+		})
+			.then((data) => {
+				if (data) {
+					res.status(200).json({ message: "News remove from collection" });
+				} else {
+					next({ name: "NotFound" });
+				}
+			})
+			.catch((err) => {
+				next(err);
+			});
+	}
 }
 
 module.exports = UserController
