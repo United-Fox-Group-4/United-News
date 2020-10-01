@@ -1,3 +1,5 @@
+baseUrl = 'http://localhost:3000'
+
 $(document).ready(function () {
     console.log("masuk!");
     //cek token
@@ -8,6 +10,7 @@ $(document).ready(function () {
     }
 });
 
+//show base-banner-page
 function firstPage() {
     $(".afterLogin").hide()
     $(".beforeLogin").hide()
@@ -15,6 +18,7 @@ function firstPage() {
     $(".registerForm").hide()
 }
 
+//show login page
 function beforeLogin() {
     $(".afterLogin").hide()
     $(".beforeLogin").show()
@@ -22,6 +26,7 @@ function beforeLogin() {
     $(".registerForm").hide()
 }
 
+//show home-base
 function afterLogin() {
     $(".afterLogin").show()
     $(".beforeLogin").hide()
@@ -29,11 +34,40 @@ function afterLogin() {
     $(".registerForm").hide()
 }
 
+//show form register
 function register() {
     $(".afterLogin").hide()
     $(".beforeLogin").hide()
     $(".firstPage").hide()
     $(".registerForm").show()
+}
+
+//register client
+function registerUser(event) {
+    event.preventDefault()
+
+    let fullname = $("#register-fullname").val()
+    let email = $("#register-email").val()
+    let password = $("#register-password").val()
+
+    $.ajax({
+        method: 'POST',
+        url: `http://localhost:3000/user/register`,
+        data: {
+            fullname,
+            email,
+            password
+        }
+    })
+        .done(res => {
+            console.log(`register success`, res)
+            //test regis
+            beforeLogin()
+        })
+        .fail(err => {
+            console.log(`register error`, err)
+            console.log(fullname, email, password)
+        })
 }
 
 // sign in app local
@@ -45,22 +79,18 @@ function loginApp(event) {
 
     $.ajax({
         method: 'POST',
-        url: `${baseUrl}/login`,
+        url: `http://localhost:3000/user/login`,
         data: { email, password }
     })
         .done((result) => {
             console.log(`login sucesss`, result)
-            // cara1
-            // localStorage.access_token = res.access_token
-            // cara2
+
             localStorage.setItem('access_token', result.access_token)
             afterLogin()
         })
         .fail((err) => {
             console.log(`Cant Login!`, err)
-        })
-        .always(function () {
-            console.log(`compleate!`)
+
         })
 }
 

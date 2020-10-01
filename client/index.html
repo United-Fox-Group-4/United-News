@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--Client ID Google-->
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -82,33 +83,35 @@
     <div class="box-login registerForm">
         <div class="container mt-5">
             <h1>Register Account</h1>
-            <form onsubmit="register(event)">
+            <form onsubmit="registerUser(event)">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" id="username">
+                    <label for="fullname">Username</label>
+                    <input type="text" class="form-control" id="register-fullname">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="email">
+                    <label for="fullname">Email</label>
+                    <input type="email" class="form-control" id="register-email">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="password">
+                    <label for="fullname">Password</label>
+                    <input type="password" class="form-control" id="register-password">
                 </div>
-                <button type="submit" onclick="beforeLogin()" class="btn btn-dark">Submit</button>
-                <a class="btn btn-dark" onclick="beforeLogin()" href="#" role="button">cancel</a>
+                <button type="submit" onclick="registerUser(event)" class="btn btn-dark">Submit</button>
+                <a class="btn btn-dark" onclick="beforeLogin()" role="button">cancel</a>
             </form>
         </div>
     </div>
-  
-<!--  Home  -->
-  <div class="container h-100 align-items-center" style="max-width: 1200px;">
+
+    <!--  Home  -->
+    <div class="container h-100 align-items-center" style="max-width: 1200px;">
         <br>
         <h2>Recomended For You:</h2>
         <form class="form-inline my-lg">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+        </form>
         <br>
         <div class="row">
 
@@ -116,71 +119,75 @@
                 <div>
                     <div class="card">
                         <div class="card-header">
-                          Featured
+                            Featured
                         </div>
                         <div class="card-body">
-                          <h5 class="card-title">News 1</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aut ipsum pariatur eos, aliquid ex cupiditate sapiente unde. Quod, ullam.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
+                            <h5 class="card-title">News 1</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aut ipsum
+                                pariatur eos, aliquid ex cupiditate sapiente unde. Quod, ullam.</p>
+                            <a href="#" class="btn btn-primary">Baca Berita</a>
                         </div>
-                      </div>
-                      <div class="card">
+                    </div>
+                    <div class="card">
                         <div class="card-header">
-                          Featured
+                            Featured
                         </div>
                         <div class="card-body">
-                          <h5 class="card-title">News 2</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, nostrum earum dolor voluptatem voluptatum optio ratione eaque ullam iste expedita.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
+                            <h5 class="card-title">News 2</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
+                                nostrum earum dolor voluptatem voluptatum optio ratione eaque ullam iste expedita.</p>
+                            <a href="#" class="btn btn-primary">Baca Berita</a>
                         </div>
-                      </div>
-                      <div class="card">
+                    </div>
+                    <div class="card">
                         <div class="card-header">
-                          Featured
+                            Featured
                         </div>
                         <div class="card-body">
-                          <h5 class="card-title">SNews 3</h5>
-                          <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
+                            <h5 class="card-title">SNews 3</h5>
+                            <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum
+                                repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
+                            <a href="#" class="btn btn-primary">Baca Berita</a>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div>
-                    <div class="card border-primary mb-3" >
+                    <div class="card border-primary mb-3">
                         <div class="card-header">Nama User</div>
                         <div class="card-body text-primary">
-                          <h5 class="card-title">Saved News: 5</h5>
-                          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                            <h5 class="card-title">Saved News: 5</h5>
+                            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <!-- SAved Card -->
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">
-                      Saved News
+                        Saved News
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
-                      <h5 class="card-title">Lorem, ipsum dolor.</h5>
+                        <h5 class="card-title">Lorem, ipsum dolor.</h5>
+                        <h5 class="card-title">Lorem, ipsum dolor.</h5>
+                        <h5 class="card-title">Lorem, ipsum dolor.</h5>
+                        <h5 class="card-title">Lorem, ipsum dolor.</h5>
                     </div>
                     <button class="btn btn-primary">See All</button>
+                </div>
             </div>
-          </div>
-    </div>
+        </div>
 
-    <!--define cdn query-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
-    <!--require script function-->
-    <script src="script.js"></script>
+        <!--define cdn query-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+            crossorigin="anonymous"></script>
+        <!--require script function-->
+        <script src="script.js"></script>
 
-    <!--require Script API Google Oauth-->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <!--require Script API Google Oauth-->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
+
 </html>
