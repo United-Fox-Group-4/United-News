@@ -16,6 +16,7 @@ function firstPage() {
     $(".beforeLogin").hide()
     $(".firstPage").show()
     $(".registerForm").hide()
+    $(".loader").hide()
     $('#userSaved').hide();
 }
 
@@ -25,6 +26,7 @@ function beforeLogin() {
     $(".beforeLogin").show()
     $(".firstPage").hide()
     $(".registerForm").hide()
+    $(".loader").hide()
     $('#userSaved').hide();
 }
 
@@ -34,6 +36,7 @@ function afterLogin() {
     $(".beforeLogin").hide()
     $(".firstPage").hide()
     $(".registerForm").hide()
+    $(".loader").hide()
     $('#userSaved').hide();
     fetchDataBerita()
 }
@@ -44,13 +47,45 @@ function register() {
     $(".beforeLogin").hide()
     $(".firstPage").hide()
     $(".registerForm").show()
+    $(".loader").hide()
+}
+
+//home after user login
+function home() {
+    $(".afterLogin").show()
+    $(".beforeLogin").hide()
+    $(".firstPage").hide()
+    $(".registerForm").hide()
+    $(".loader").hide()
+}
+//loader animate
+function loader() {
+    $(".afterLogin").hide()
+    $(".beforeLogin").hide()
+    $(".firstPage").hide()
+    $(".registerForm").hide()
+    $(".loader").show()
+}
+
+function onChangeLeaveEndDate() {
+    console.log(`test functiom`)
+    $(".loader").show()
+    setTimeout(function () {
+        $(".loader").hide()
+        beforeLogin()
+    }, 3000);
+
+}
+
+function transition() {
+    console.log(`masuuk`)
+    onChangeLeaveEndDate()
     $('#userSaved').hide()
 }
 
 //register client
 function registerUser(event) {
     event.preventDefault()
-
     let fullname = $("#register-fullname").val()
     let email = $("#register-email").val()
     let password = $("#register-password").val()

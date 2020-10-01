@@ -54,3 +54,40 @@ body {
 .card {
     margin-bottom: 10px;
 }
+
+.loader{
+  margin: 0 auto;
+  background-color: rgb(8, 8, 8);
+  height: 800px;
+  padding: 100px 100px 100px 100px;
+  text-align: center;
+}
+
+.box-loader{
+  margin: 0 auto;
+  width: 30%;
+  background-color: rgb(0, 0, 0);
+  float: center;
+  padding: 10px;
+  text-align: center;
+  color:white;
+  margin-top: 100px;
+}
+
+.loading {
+  width: 80px;
+  height: 80px;
+  background:turquoise;
+  border-radius: 10px;
+  position: relative;
+  animation: loader 3s infinite;
+}
+
+@keyframes loader {
+  0%   {top: 0px;}
+  25%  {top: 200px;}
+  75%  {top: 50px}
+  100% {top: 100px;}
+  0%   {top: 0px;}
+  75%  {top: 50px}
+}
