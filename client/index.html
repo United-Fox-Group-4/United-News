@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--Client ID Google-->
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -82,33 +83,36 @@
     <div class="box-login registerForm">
         <div class="container mt-5">
             <h1>Register Account</h1>
-            <form onsubmit="signUp(event)">
+            <form onsubmit="registerUser(event)">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" id="usernameSU">
+                    <label for="fullname">Username</label>
+                    <input type="text" class="form-control" id="register-fullname">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="emailSU">
+                    <label for="fullname">Email</label>
+                    <input type="email" class="form-control" id="register-email">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="passwordSU">
+                    <label for="fullname">Password</label>
+                    <input type="password" class="form-control" id="register-password">
                 </div>
-                <button type="submit" class="btn btn-dark">Submit</button>
-                <a class="btn btn-dark" onclick="beforeLogin()" href="#" role="button">cancel</a>
+                <button type="submit" onclick="registerUser(event)" class="btn btn-dark">Submit</button>
+                <a class="btn btn-dark" onclick="beforeLogin()" role="button">cancel</a>
             </form>
         </div>
     </div>
-  
-  <!--  Home  -->
+
+
+<!--  Home  -->
   <div class="container h-100 align-items-center afterLogin" style="max-width: 1200px;">
         <br>
         <h2 id="title-for-user">Recomended For You:</h2>
         <form class="form-inline my-lg">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search" id="judul-berita">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+        </form>
         <br>
         <div class="row">
             <div class="col dataBerita">
@@ -130,10 +134,11 @@
                     <div class="card border-primary mb-3" >
                         <div class="card-header" id="namaUser">Selamat datang kembali</div>
                         <div class="card-body text-primary">
+
                           <!-- <h5 class="card-title">Saved News: 5</h5> -->
                           <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <!-- SAved Card -->
                 <div class="card">
@@ -174,8 +179,9 @@
     <!--require script function-->
     <script src="script.js"></script>
 
-    <!--require Script API Google Oauth-->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <!--require Script API Google Oauth-->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
+
 </html>
