@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--Client ID Google-->
     <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
@@ -35,6 +36,14 @@
         </div>
     </nav>
 
+    <!--preloader-->
+    <div class="loader">
+        <div class="box-loader loading">
+            <img src="newspaper.png">
+            <h5>Loading news...</h5>
+        </div>
+    </div>
+
     <!--base before form login-->
     <div class="banner firstPage">
         <!--header text-->
@@ -45,7 +54,7 @@
                 <h1 class="display-4">Around</h1>
                 <h1 class="display-4">The World</h1>
                 <p class="lead">we share the news all around the world, lets get updated all days .</p>
-                <a class="btn btn-dark btn-lg" onclick="beforeLogin()" href="#" role="button">Login</a>
+                <a class="btn btn-dark btn-lg" onclick="transition()" href="#" role="button">Login</a>
             </div>
         </div>
     </div>
@@ -82,95 +91,94 @@
     <div class="box-login registerForm">
         <div class="container mt-5">
             <h1>Register Account</h1>
-            <form onsubmit="register(event)">
+            <form onsubmit="registerUser(event)">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" id="username">
+                    <label for="fullname">Username</label>
+                    <input type="text" class="form-control" id="register-fullname">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="email">
+                    <label for="fullname">Email</label>
+                    <input type="email" class="form-control" id="register-email">
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="password">
+                    <label for="fullname">Password</label>
+                    <input type="password" class="form-control" id="register-password">
                 </div>
-                <button type="submit" onclick="beforeLogin()" class="btn btn-dark">Submit</button>
-                <a class="btn btn-dark" onclick="beforeLogin()" href="#" role="button">cancel</a>
+                <button type="submit" onclick="registerUser(event)" class="btn btn-dark">Submit</button>
+                <a class="btn btn-dark" onclick="beforeLogin()" role="button">cancel</a>
             </form>
         </div>
     </div>
-  
+
+
 <!--  Home  -->
   <div class="container h-100 align-items-center afterLogin" style="max-width: 1200px;">
         <br>
-        <h2>Recomended For You:</h2>
+        <h2 id="title-for-user">Recomended For You:</h2>
         <form class="form-inline my-lg">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Other News" aria-label="Search" id="judul-berita">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+        </form>
         <br>
         <div class="row">
+            <div class="col dataBerita">
+                
+              <!-- <div class="card">
+                  <div class="card-header">
+                    Featured
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">SNews 3</h5>
+                    <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
+                    <a href="#" class="btn btn-primary">Baca Berita</a>
+                  </div>
+                </div> -->
 
-            <div class="col">
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">News 1</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et aut ipsum pariatur eos, aliquid ex cupiditate sapiente unde. Quod, ullam.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">News 2</h5>
-                          <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, nostrum earum dolor voluptatem voluptatum optio ratione eaque ullam iste expedita.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header">
-                          Featured
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">SNews 3</h5>
-                          <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repellat fuga tenetur sequi temporibus nulla eos quas minima asperiores eligendi.</p>
-                          <a href="#" class="btn btn-primary">Baca Berita</a>
-                        </div>
-                      </div>
-                </div>
             </div>
             <div class="col">
                 <div>
                     <div class="card border-primary mb-3" >
-                        <div class="card-header">Nama User</div>
+                        <div class="card-header" id="namaUser">Selamat datang kembali</div>
                         <div class="card-body text-primary">
+
                           <!-- <h5 class="card-title">Saved News: 5</h5> -->
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <!-- SAved Card -->
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">
-                      Saved News
+                      <h3>Saved News :</h3>
                     </div>
-                    <div class="card-body">
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
-                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                    <div class="saved-news">
+                      <!-- ISI dari DB -->
+
+                      <!-- Dummy html -->
+                      <!-- <div class="card ">
+                        <div class="card-header">
+                          web
+                        </div>
+                        <div class="card-body">
+                          <h4 class="card-title">${e.title}</h4>
+                          <p class="card-text">${e.description}</p>
+                          <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+                        </div>
+                        </div>  -->
                     </div>
-                    <!-- <button class="btn btn-primary">See All</button> -->
-            </div>
-          </div>
+                    <!-- <div class="card-body">
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                      <h5 class="card-title"><a href="#"> Lorem, ipsum dolor.</a></h5>
+                    </div> -->
+                    <button class="btn btn-primary" onclick="showSavedBerita(event)">See All</button>
+                </div>
+          </div> 
     </div>
+
 
     <!--define cdn query-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -183,4 +191,7 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
+
+
+
 </html>
