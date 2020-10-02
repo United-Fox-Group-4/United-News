@@ -9,7 +9,7 @@ United News is an application to aggregate new from several sources. this app ha
 
 ## RESTful endpoints
 
-### POST user/login
+### POST /login
 
 > Login to Application
 
@@ -104,7 +104,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### POST user/register
+### POST /register
 
 > Register a User
 
@@ -141,61 +141,6 @@ _Response (400 - Bad Request)_
 ```
 {
     "message": "<validation error message>"
-}
-```
-
-_Response (500 - Internal Server Error)_
-
-```
-{
-    "message": "<error messages>"
-}
-```
-
----
-
-### PUT /user/edit
-
-> Edit User data
-
-_Request Header_
-
-```
-{
-    "Content-Type": "application/json"
-    "access_token": "<access token>"
-}
-```
-
-_Request Body_
-
-```
-{
-    "full_name": "<user full name>",
-}
-```
-
-_Response (200)_
-
-```
-{
-    "full_name": "<user full name>",
-}
-```
-
-_Response (400 - Bad Request)_
-
-```
-{
-    "message": "<validation error message>"
-}
-```
-
-_Response (401 - Unauthorized)_
-
-```
-{
-    "message": "You do not have access"
 }
 ```
 
@@ -262,7 +207,58 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### GET /news/search
+---
+
+### GET /news/tag
+
+> Get Saved Tag By User
+
+_Request Header_
+
+```
+{
+    "access_token": "<access token>"
+}
+```
+
+_Request Body_
+
+```
+not needed
+```
+
+_Response (200)_
+
+```
+[
+    {
+        "tag": "<tag name>"
+    },
+    {
+        "tag": "<tag name>"
+    }
+]
+```
+
+_Response (401 - Unauthorized)_
+
+```
+{
+    "message": "You do not have access"
+}
+```
+
+_Response (500 - Internal Server Error)_
+
+```
+{
+    "message": "<error messages>"
+}
+```
+
+---
+
+### POST /news/search
 
 > Search News
 
@@ -456,7 +452,7 @@ _Response (500 - Internal Server Error)_
 
 ### GET /user/collection/tag/:tag
 
-> Get news saved by user by id
+> Get news saved by user by tag
 
 _Request Header_
 
@@ -641,7 +637,7 @@ _Response (500 - Internal Server Error)_
 
 ### POST /user/collection/
 
-> Change tag of the news
+> Add News Collection by input tag
 
 _Request Header_
 
@@ -705,4 +701,4 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
----
+
