@@ -1,4 +1,10 @@
 let baseUrl = 'http://localhost:3000'
+let userId = null
+
+var title = null,
+description = null,
+publishedA =  null,
+news_url = null
 
 
 
@@ -34,6 +40,7 @@ function beforeLogin() {
 
 //show home-base
 function afterLogin() {
+    fetchDataBerita()
     $('.tagInput').hide();
     $(".afterLogin").show()
     $(".beforeLogin").hide()
@@ -41,7 +48,6 @@ function afterLogin() {
     $(".registerForm").hide()
     $(".loader").hide()
     $('#userSaved').hide();
-    fetchDataBerita()
 }
 
 //show form register
@@ -95,7 +101,7 @@ function registerUser(event) {
 
     $.ajax({
         method: 'POST',
-        url: `http://localhost:3000/user/register`,
+        url: `http://localhost:3000/register`,
         data: {
             fullname,
             email,
@@ -122,7 +128,7 @@ function loginApp(event) {
 
     $.ajax({
         method: 'POST',
-        url: `http://localhost:3000/user/login`,
+        url: `http://localhost:3000/login`,
         data: { email, password }
     })
         .done((result) => {
@@ -141,25 +147,30 @@ $("#logout").click(() => {
     localStorage.removeItem(`access_token`)
     $("#email").val('')
     $("#password").val('')
+    // ADD 
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
     beforeLogin()
 })
 
-// function onSignIn(googleUser) {
-//     const token_id = googleUser.getAuthResponse().id_token;
+function onSignIn(googleUser) {
+    const token_id = googleUser.getAuthResponse().id_token;
 
-//     $.ajax({
-//         method: 'POST',
-//         url: 'http://localhost:3000/googlesignin',
-//         data: {token_id}
-//     })
-//         .done(result => {
-//             localStorage.setItem('access_token', result.access_token)
-//             afterLogin()
-//         })
-//         .fail(err => {
-//             console.log(err)
-//         })
-// }
+    $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/googlesignin',
+        data: {token_id}
+    })
+        .done(result => {
+            localStorage.setItem('access_token', result.access_token)
+            afterLogin()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
 
 // function signOut() {
 //     var auth2 = gapi.auth2.getAuthInstance();
@@ -170,6 +181,7 @@ $("#logout").click(() => {
 
 // dapetin berita dari rekomendasi server
 function fetchDataBerita () {
+    console.log ('masuk')
     $.ajax({
         method: "GET",
         url: "http://localhost:3000" + '/news/headline',
@@ -177,25 +189,25 @@ function fetchDataBerita () {
             access_token: localStorage.access_token
         }
     }).done(result => {
-        // $('#dataBerita').empty()
-        // console.log ('masuik')
+        $('#dataBerita').empty()
+        console.log ('masuik', result)
         $.each(result, function (i, e) { 
              $('#dataBerita').append(`
              <div class="card headline">
-             <div class="card-header">
+             <div class="card-header" id="pub-${i}">
                ${e.publishedAt}
              </div>
              <div class="card-body">
-               <h4 class="card-title">${e.title}</h4>
-               <p class="card-text">${e.description}</p>
-               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
-                            Berita</a>
-                        <div class="input-group" class="tagInput-${e.id} tagInput">
-                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
+               <h4 class="card-title" id="judul-${i}">${e.title}</h4>
+               <p class="card-text" id="des-${i}">${e.description}</p>
+               <a href="${e.news_url}" class="btn btn-primary" id="url-${i}">Baca Berita</a>
+               <!-- <a href="#" onclick="saveBeritaForm(event, ${i})" class="btn btn-success" class="simpanBerita-${i}">Simpan
+                            Berita</a> -->
+                        <div class="input-group" id="tagInput-${i} tagInput">
+                            <input type="text" class="form-control" placeholder="Tag" id="tagFromUser-${i}">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button"
-                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
+                                    onclick="saveBerita(event, ${i})">Simpan</button>
                             </div>
                         </div>
              </div>
@@ -279,38 +291,42 @@ function searchBerita (event) {
 //         console.log (err)
 //     })
 // }
+function showRecomend(event) {
+    event.preventDefault()
+
+}
 
 // Menampilkan semua berita ketika user melihat view all
-function showSavedBerita (event) {
-    event.preventDefault()
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000" + '/user/collection',
-        headers: {
-            access_token: localStorage.access_token
-        }
-    }).done( result => {
-        $('#dataBerita').empty()
-        // $('.headline').hide()
-        $.each(result, (i, e) => {
-            $('#dataBerita').append(`
-            <div class="card ">
-            <div class="card-header">
-              ${e.publishedAt}
-            </div>
-            <div class="card-body">
-              <h4 class="card-title">${e.title}</h4>
-              <p class="card-text">${e.description}</p>
-              <span class="badge badge-primary">${e.folder}</span>
-              <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-            </div>
-            </div>
-            `);
-       })
-    }).fail(err => {
-        console.log (err)
-    })
-}
+// function showSavedBerita (event) {
+//     event.preventDefault()
+//     $.ajax({
+//         method: "GET",
+//         url: "http://localhost:3000" + '/user/collection',
+//         headers: {
+//             access_token: localStorage.access_token
+//         }
+//     }).done( result => {
+//         $('#dataBerita').empty()
+//         // $('.headline').hide()
+//         $.each(result, (i, e) => {
+//             $('#dataBerita').append(`
+//             <div class="card ">
+//             <div class="card-header">
+//               ${e.publishedAt}
+//             </div>
+//             <div class="card-body">
+//               <h4 class="card-title">${e.title}</h4>
+//               <p class="card-text">${e.description}</p>
+//               <span class="badge badge-primary">${e.folder}</span>
+//               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+//             </div>
+//             </div>
+//             `);
+//        })
+//     }).fail(err => {
+//         console.log (err)
+//     })
+// }
 
 // menampilkan add tag pada saat mau save berita
 
@@ -324,7 +340,10 @@ function saveBeritaForm(event, id) {
 // Ini untuk save berita -- tinggal sesuaiin dengan server
 function saveBerita(event, id) {
     event.preventDefault()
-    var tag = $(`.tagFromUser${id}`).val();
+    console.log ('masuk save berita')
+    var tag = $(`#tagFromUser-${id}`).val()
+    var title = $(`#judul-${id}`).text()
+    console.log (title, tag)
     if (tag) {
         $.ajax({
             type: "POST",
@@ -333,23 +352,24 @@ function saveBerita(event, id) {
                 access_token: localStorage.access_token
             },
             data: {
-                // ini mengunakan data skeleton karena belum tahu 
+                // ini mengunakan data skeleton karena belum tahu
+                title: $(`#judul-${id}`).text(),
+                description: $(`#des-${id}`).text(),
+                publishedAt: $(`#pub-${id}`).text(),
+                    news_url: $(`url-${id}`).attr('href'),
                 tag: tag,
-                id: id
             }
         }).done(result => {
             // setelah save 
-            $('#tagInput').hide();
-            $("#simpanBerita").hide();
-            $('#tagInBerita').append(`
-            ${result.tag}
-            `);
+            // $('#tagInput').hide();
+
+            $(`#tagInput-${id}`).remove();
+            // $('#tagInBerita').append(`
+            //     ${result.tag}
+            // `);
+            console.log (result)
         }).fail(err => {
             console.log (err)
         })
-    } else {
-        $('#tagInput').hide();
-        $("#simpanBerita").show();
-
     }
 }
