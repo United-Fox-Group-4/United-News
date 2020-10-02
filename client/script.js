@@ -142,15 +142,12 @@ $("#logout").click(() => {
 })
 
 // function onSignIn(googleUser) {
-//     var google_access_token = googleUser.getAuthResponse().id_token;
-//     console.log(google_access_token)
+//     const token_id = googleUser.getAuthResponse().id_token;
 
 //     $.ajax({
 //         method: 'POST',
-//         url: 'http://localhost:3000/googleLogin',
-//         headers: {
-//             google_access_token
-//         }
+//         url: 'http://localhost:3000/googlesignin',
+//         data: {token_id}
 //     })
 //         .done(result => {
 //             localStorage.setItem('access_token', result.access_token)

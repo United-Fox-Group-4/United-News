@@ -2,6 +2,8 @@ const { User, NewsCollection } = require('../models/index')
 const { comparePass } = require('../helpers/bcrypt')
 const { signToken } = require('../helpers/jwt')
 const axios = require('axios')
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class UserController {
     static register(req, res, next) {
@@ -229,7 +231,36 @@ class UserController {
 			.catch((err) => {
 				next(err);
 			});
-	}
+    }
+    
+    static googleSignIn(req, res, next) {
+        const token = req.body.token_id;
+        let user = null;
+		client
+			.verifyIdToken({
+				idToken: token,
+				audience: process.env.CLIENT_ID,
+			})
+			.then((ticket) => {
+				const payload = ticket.getPayload();
+				user = {
+					full_name: payload.given_name,
+					email: payload.email,
+					password: "defaultpassword",
+				};
+				return User.findOne({ where: { email: user.email } });
+			})
+			.then((data) => {
+				return !data ? User.create(user) : data;
+			})
+			.then((data) => {
+				const access_token = signToken({ email: data.email, id: data.id });
+				res.status(200).json({ email: data.email, id: data.id, access_token });
+			})
+			.catch((err) => {
+				next(err);
+			});
+    }
 }
 
 module.exports = UserController
