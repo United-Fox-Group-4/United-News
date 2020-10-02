@@ -300,37 +300,46 @@ function showRecomend(event) {
 
 }
 
-// Menampilkan semua berita ketika user melihat view all
-// function showSavedBerita (event) {
-//     event.preventDefault()
-//     $.ajax({
-//         method: "GET",
-//         url: "http://localhost:3000" + '/user/collection',
-//         headers: {
-//             access_token: localStorage.access_token
-//         }
-//     }).done( result => {
-//         $('#dataBerita').empty()
-//         // $('.headline').hide()
-//         $.each(result, (i, e) => {
-//             $('#dataBerita').append(`
-//             <div class="card ">
-//             <div class="card-header">
-//               ${e.publishedAt}
-//             </div>
-//             <div class="card-body">
-//               <h4 class="card-title">${e.title}</h4>
-//               <p class="card-text">${e.description}</p>
-//               <span class="badge badge-primary">${e.folder}</span>
-//               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-//             </div>
-//             </div>
-//             `);
-//        })
-//     }).fail(err => {
-//         console.log (err)
-//     })
-// }
+// Menampilkan Berita Collection
+function showSavedBerita (event) {
+    event.preventDefault()
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000" + '/user/collection',
+        headers: {
+            access_token: localStorage.access_token
+        }
+    }).done( result => {
+        $('#dataBerita').empty()
+        // $('.headline').hide()
+        $.each(result, (i, e) => {
+            $('#dataBerita').append(`
+            <div class="card ">
+            <div class="card-header">
+              ${e.publishedAt}
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">${e.title}</h4>
+              <p class="card-text">${e.description}</p>
+              <span class="badge badge-primary">${e.tag}</span>
+              <a href="${e.news_url}" class="btn btn-primary">Original Source</a>
+              <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="deleteBerita(event, ${e.id})">Hapus</button>
+                </div>
+                <div class="input-group" id="tagInput-${i} tagInput">
+                    <input type="text" class="form-control" placeholder="Tag" id="tagFromDatabase-${e.id}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeTag(event, ${e.id})">Simpan</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+            `);
+       })
+    }).fail(err => {
+        console.log (err)
+    })
+}
 
 // menampilkan add tag pada saat mau save berita
 
@@ -360,7 +369,7 @@ function saveBerita(event, id) {
                 title: $(`#judul-${id}`).text(),
                 description: $(`#des-${id}`).text(),
                 publishedAt: $(`#pub-${id}`).text(),
-                    news_url: $(`url-${id}`).attr('href'),
+                news_url: $(`#url-${id}`).attr('href'),
                 tag: tag,
             }
         }).done(result => {
@@ -378,6 +387,47 @@ function saveBerita(event, id) {
     }
 }
 
+// Ini untuk hapus berita
+function deleteBerita (event, id) {
+    event.preventDefault()
+    console.log (id)
+    $.ajax({
+        type: "DELETE",
+        url: `http://localhost:3000/user/collection/id/${id}`,
+        headers: {
+            access_token: localStorage.access_token
+        },
+    }).done(result => {
+        showSavedBerita(event)
+    }).fail(err => {
+        console.log (err)
+    })
+}
+
+//change tag
+function changeTag(event, id) {
+    event.preventDefault()
+    const tag = $(`#tagFromDatabase-${id}`).val()
+    console.log (tag)
+    if (tag) {
+        $.ajax({
+            type: "PATCH",
+            url: `http://localhost:3000/user/collection/id/${id}`,
+            headers: {
+                access_token: localStorage.access_token
+            },
+            data: {
+                tag: tag,
+            }
+        }).done(result => {
+            showSavedBerita(event)
+        }).fail(err => {
+            console.log (err)
+        })
+    }
+}
+
+// Untuk menampilkan tag yang user punya
 function fetchTag () {
     console.log ('masuk tag')
     $.ajax({
