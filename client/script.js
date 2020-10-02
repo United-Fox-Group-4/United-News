@@ -1,4 +1,6 @@
-baseUrl = 'http://localhost:3000'
+let baseUrl = 'http://localhost:3000'
+
+
 
 $(document).ready(function () {
     console.log("masuk!");
@@ -30,6 +32,7 @@ function beforeLogin() {
 
 //show home-base
 function afterLogin() {
+    $('.tagInput').hide();
     $(".afterLogin").show()
     $(".beforeLogin").hide()
     $(".firstPage").hide()
@@ -65,7 +68,7 @@ function registerUser(event) {
         }
     })
         .done(res => {
-            console.log(`register success`, res)
+            // console.log(`register success`, res)
             //test regis
             beforeLogin()
         })
@@ -88,7 +91,7 @@ function loginApp(event) {
         data: { email, password }
     })
         .done((result) => {
-            console.log(`login sucesss`, result)
+            // console.log(`login sucesss`, result)
 
             localStorage.setItem('access_token', result.access_token)
             afterLogin()
@@ -142,6 +145,8 @@ function fetchDataBerita () {
             access_token: localStorage.access_token
         }
     }).done(result => {
+        // $('#dataBerita').empty()
+        // console.log ('masuik')
         $.each(result, function (i, e) { 
              $('#dataBerita').append(`
              <div class="card headline">
@@ -152,12 +157,21 @@ function fetchDataBerita () {
                <h4 class="card-title">${e.title}</h4>
                <p class="card-text">${e.description}</p>
                <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
+                            Berita</a>
+                        <div class="input-group" class="tagInput-${e.id} tagInput">
+                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
+                            </div>
+                        </div>
              </div>
              </div> 
              `);
         })
     }).fail( err => {
-        console.log (err)
+        console.log (err, "ERRor")
     }).always(()=> {
         $("#title-for-user").text('Recomended For You:');
     })
@@ -165,6 +179,7 @@ function fetchDataBerita () {
 
 // mencari berita dari inout search
 function searchBerita (event) {
+    event.preventDefault()
     $.ajax({
         method: "GET",
         url: "http://localhost:3000" + '/news/search',
@@ -187,6 +202,7 @@ function searchBerita (event) {
               <h4 class="card-title">${e.title}</h4>
               <p class="card-text">${e.description}</p>
               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+
             </div>
             </div> 
             `);
@@ -255,4 +271,46 @@ function showSavedBerita (event) {
     }).fail(err => {
         console.log (err)
     })
+}
+
+// menampilkan add tag pada saat mau save berita
+
+// console.log ("masuk")
+function saveBeritaForm(event, id) {
+    event.preventDefault()
+    $(`.tagInput-${id}`).show();
+    $(`.simpanBerita-${id}`).hide();
+}
+
+// Ini untuk save berita -- tinggal sesuaiin dengan server
+function saveBerita(event, id) {
+    event.preventDefault()
+    var tag = $(`.tagFromUser${id}`).val();
+    if (tag) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3000" + '/user/collection',
+            headers: {
+                access_token: localStorage.access_token
+            },
+            data: {
+                // ini mengunakan data skeleton karena belum tahu 
+                tag: tag,
+                id: id
+            }
+        }).done(result => {
+            // setelah save 
+            $('#tagInput').hide();
+            $("#simpanBerita").hide();
+            $('#tagInBerita').append(`
+            ${result.tag}
+            `);
+        }).fail(err => {
+            console.log (err)
+        })
+    } else {
+        $('#tagInput').hide();
+        $("#simpanBerita").show();
+
+    }
 }
