@@ -299,37 +299,38 @@ function showRecomend(event) {
 
 }
 
-// Menampilkan semua berita ketika user melihat view all
-// function showSavedBerita (event) {
-//     event.preventDefault()
-//     $.ajax({
-//         method: "GET",
-//         url: "http://localhost:3000" + '/user/collection',
-//         headers: {
-//             access_token: localStorage.access_token
-//         }
-//     }).done( result => {
-//         $('#dataBerita').empty()
-//         // $('.headline').hide()
-//         $.each(result, (i, e) => {
-//             $('#dataBerita').append(`
-//             <div class="card ">
-//             <div class="card-header">
-//               ${e.publishedAt}
-//             </div>
-//             <div class="card-body">
-//               <h4 class="card-title">${e.title}</h4>
-//               <p class="card-text">${e.description}</p>
-//               <span class="badge badge-primary">${e.folder}</span>
-//               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-//             </div>
-//             </div>
-//             `);
-//        })
-//     }).fail(err => {
-//         console.log (err)
-//     })
-// }
+// Menampilkan Berita Collection
+function showSavedBerita (event) {
+    event.preventDefault()
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000" + '/user/collection',
+        headers: {
+            access_token: localStorage.access_token
+        }
+    }).done( result => {
+        $('#dataBerita').empty()
+        // $('.headline').hide()
+        $.each(result, (i, e) => {
+            $('#dataBerita').append(`
+            <div class="card ">
+            <div class="card-header">
+              ${e.publishedAt}
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">${e.title}</h4>
+              <p class="card-text">${e.description}</p>
+              <span class="badge badge-primary">${e.tag}</span>
+              <a href="${e.news_url}" class="btn btn-primary">Original Source</a>
+              <a href="#" class="btn btn-primary">Hapus Berita</a>
+            </div>
+            </div>
+            `);
+       })
+    }).fail(err => {
+        console.log (err)
+    })
+}
 
 // menampilkan add tag pada saat mau save berita
 
@@ -359,7 +360,7 @@ function saveBerita(event, id) {
                 title: $(`#judul-${id}`).text(),
                 description: $(`#des-${id}`).text(),
                 publishedAt: $(`#pub-${id}`).text(),
-                    news_url: $(`url-${id}`).attr('href'),
+                news_url: $(`#url-${id}`).attr('href'),
                 tag: tag,
             }
         }).done(result => {
