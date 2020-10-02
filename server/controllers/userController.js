@@ -278,6 +278,25 @@ class UserController {
 				next(err);
 			});
     }
+
+    static getCollectionTag (req, res, next) {
+        NewsCollection.aggregate('tag', 'DISTINCT', {plain:false,
+            where: {
+                UserId: req.userData.id
+            }
+        
+        }
+        )
+            .then((allTag) => {
+                allTag.forEach(e => {
+                    e.tag = e['DISTINCT']
+                    delete(e.DISTINCT)
+                });
+                res.status(200).json(allTag);
+            }).catch((err) => {
+				next(err);
+            })
+    }
 }
 
 module.exports = UserController
