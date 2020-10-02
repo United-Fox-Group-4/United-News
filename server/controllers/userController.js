@@ -46,6 +46,7 @@ class UserController {
     }
 
     static async searchNews(req, res, next) {
+        console.log ('masuk')
         try {
             const results = []
 
@@ -55,6 +56,7 @@ class UserController {
                 url: `https://newsapi.org/v2/everything?q=${req.body.query}`,
                 headers: {Authorization: process.env.NEWS_API}
             })
+            // console.log (data1.data.articles)
             results.push({
                 title: data1.data.articles[0].title,
                 description: data1.data.articles[0].description,
@@ -73,7 +75,7 @@ class UserController {
                 publishedAt: data2.data.news[0].published.slice(0, 10),
                 news_url: data2.data.news[0].url
             })
-
+            console.log(results)
             // news catcher
             const data3 = await axios({
                 method: "get",

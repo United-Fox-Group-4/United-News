@@ -1,4 +1,6 @@
-baseUrl = 'http://localhost:3000'
+let baseUrl = 'http://localhost:3000'
+
+
 
 $(document).ready(function () {
     console.log("masuk!");
@@ -32,6 +34,7 @@ function beforeLogin() {
 
 //show home-base
 function afterLogin() {
+    $('.tagInput').hide();
     $(".afterLogin").show()
     $(".beforeLogin").hide()
     $(".firstPage").hide()
@@ -100,7 +103,7 @@ function registerUser(event) {
         }
     })
         .done(res => {
-            console.log(`register success`, res)
+            // console.log(`register success`, res)
             //test regis
             beforeLogin()
         })
@@ -123,7 +126,7 @@ function loginApp(event) {
         data: { email, password }
     })
         .done((result) => {
-            console.log(`login sucesss`, result)
+            // console.log(`login sucesss`, result)
 
             localStorage.setItem('access_token', result.access_token)
             afterLogin()
@@ -174,6 +177,8 @@ function fetchDataBerita () {
             access_token: localStorage.access_token
         }
     }).done(result => {
+        // $('#dataBerita').empty()
+        // console.log ('masuik')
         $.each(result, function (i, e) { 
              $('#dataBerita').append(`
              <div class="card headline">
@@ -184,12 +189,21 @@ function fetchDataBerita () {
                <h4 class="card-title">${e.title}</h4>
                <p class="card-text">${e.description}</p>
                <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
+                            Berita</a>
+                        <div class="input-group" class="tagInput-${e.id} tagInput">
+                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
+                            </div>
+                        </div>
              </div>
-             </div> 
+             </div>
              `);
         })
     }).fail( err => {
-        console.log (err)
+        console.log (err, "ERRor")
     }).always(()=> {
         $("#title-for-user").text('Recomended For You:');
     })
@@ -197,6 +211,8 @@ function fetchDataBerita () {
 
 // mencari berita dari inout search
 function searchBerita (event) {
+    console.log ('masuk search luar')
+    event.preventDefault()
     $.ajax({
         method: "GET",
         url: "http://localhost:3000" + '/news/search',
@@ -207,55 +223,62 @@ function searchBerita (event) {
             query: $("#judul-berita").val()
         }
     }).done( result => {
+        console.log (result)
         $('#dataBerita').empty()
         $('.headline').hide()
         $.each(result, (i, e) => {
+            console.log (e)
             $('#dataBerita').append(`
             <div class="card ">
+            <img src="https://www.agfa.com/printing/wp-content/uploads/sites/19/2020/04/newspapers-stack-1to2-600x300.jpg">
             <div class="card-header">
               ${e.publishedAt}
             </div>
             <div class="card-body">
               <h4 class="card-title">${e.title}</h4>
               <p class="card-text">${e.description}</p>
-              <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+              <a href="${e.news_url}" class="btn btn-dark">Baca Berita</a>
+
             </div>
             </div> 
             `);
        })
     }).fail(err => {
+        console.log ('masuk error search')
         console.log (err)
+    }).always(() => {
+        console.log ('masuk always')
     })
 }
 
-// Menampilkan berita di sidebar kanan
-function fetchBeritaSaved () {
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000" + '/user/collection',
-        headers: {
-            access_token: localStorage.access_token
-        }
-    }).done(result => {
-        $("#title-for-user").text('result:')
-        $('#saved-news').empty()
-        $.each(result, function (i, e) { 
-             $('#saved-news').append(`
-             <div class="card headline">
-             <div class="card-header">
-               ${e.publishedAt}
-             </div>
-             <div class="card-body">
-               <h4 class="card-title"><a href="${e.news_url}">${e.title}</a></h4>
-               <span class="badge badge-primary">${e.folder}</span>
-             </div>
-             </div>
-             `);
-        })
-    }).fail( err=> {
-        console.log (err)
-    })
-}
+// // Menampilkan berita di sidebar kanan
+// function fetchBeritaSaved () {
+//     $.ajax({
+//         method: "GET",
+//         url: "http://localhost:3000" + '/user/collection',
+//         headers: {
+//             access_token: localStorage.access_token
+//         }
+//     }).done(result => {
+//         $("#title-for-user").text('result:')
+//         $('#saved-news').empty()
+//         $.each(result, function (i, e) { 
+//              $('#saved-news').append(`
+//              <div class="card headline">
+//              <div class="card-header">
+//                ${e.publishedAt}
+//              </div>
+//              <div class="card-body">
+//                <h4 class="card-title"><a href="${e.news_url}">${e.title}</a></h4>
+//                <span class="badge badge-dark">${e.folder}</span>
+//              </div>
+//              </div>
+//              `)
+//         })
+//     }).fail( err=> {
+//         console.log (err)
+//     })
+// }
 
 // Menampilkan semua berita ketika user melihat view all
 function showSavedBerita (event) {
@@ -268,7 +291,7 @@ function showSavedBerita (event) {
         }
     }).done( result => {
         $('#dataBerita').empty()
-        $('.headline').hide()
+        // $('.headline').hide()
         $.each(result, (i, e) => {
             $('#dataBerita').append(`
             <div class="card ">
@@ -287,4 +310,46 @@ function showSavedBerita (event) {
     }).fail(err => {
         console.log (err)
     })
+}
+
+// menampilkan add tag pada saat mau save berita
+
+// console.log ("masuk")
+function saveBeritaForm(event, id) {
+    event.preventDefault()
+    $(`.tagInput-${id}`).show();
+    $(`.simpanBerita-${id}`).hide();
+}
+
+// Ini untuk save berita -- tinggal sesuaiin dengan server
+function saveBerita(event, id) {
+    event.preventDefault()
+    var tag = $(`.tagFromUser${id}`).val();
+    if (tag) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3000" + '/user/collection',
+            headers: {
+                access_token: localStorage.access_token
+            },
+            data: {
+                // ini mengunakan data skeleton karena belum tahu 
+                tag: tag,
+                id: id
+            }
+        }).done(result => {
+            // setelah save 
+            $('#tagInput').hide();
+            $("#simpanBerita").hide();
+            $('#tagInBerita').append(`
+            ${result.tag}
+            `);
+        }).fail(err => {
+            console.log (err)
+        })
+    } else {
+        $('#tagInput').hide();
+        $("#simpanBerita").show();
+
+    }
 }
