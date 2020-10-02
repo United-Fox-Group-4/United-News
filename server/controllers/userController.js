@@ -157,7 +157,6 @@ class UserController {
                 publishedAt: data3.data.articles[0].published_date.slice(0, 10),
                 news_url: data3.data.articles[0].link
             })
-            console.log ('>>>>', result)
             res.status(200).json(results)
         } catch(err) {
             

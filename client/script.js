@@ -184,13 +184,6 @@ function onSignIn(googleUser) {
         })
 }
 
-// function signOut() {
-//     var auth2 = gapi.auth2.getAuthInstance();
-//     auth2.signOut().then(function () {
-//         console.log('User signed out.');
-//     });
-// }
-
 // dapetin berita dari rekomendasi server
 function fetchDataBerita () {
     console.log ('masuk')
@@ -201,6 +194,7 @@ function fetchDataBerita () {
             access_token: localStorage.access_token
         }
     }).done(result => {
+        console.log(result)
         $('#dataBerita').empty()
         console.log ('masuik', result)
         $.each(result, function (i, e) { 
@@ -212,7 +206,7 @@ function fetchDataBerita () {
              <div class="card-body">
                <h4 class="card-title" id="judul-${i}">${e.title}</h4>
                <p class="card-text" id="des-${i}">${e.description}</p>
-               <a href="${e.news_url}" class="btn btn-primary" id="url-${i}">Baca Berita</a>
+               <a target="_blank"  href="${e.news_url}" class="btn btn-primary" id="url-${i}">Baca Berita</a>
                <!-- <a href="#" onclick="saveBeritaForm(event, ${i})" class="btn btn-success" class="simpanBerita-${i}">Simpan
                             Berita</a> -->
                         <div class="input-group" id="tagInput-${i} tagInput">
@@ -294,11 +288,12 @@ function fetchSavedBoX() {
     })
         .done(res => {
             Saved = res
+            $("#box-saved-news").empty()
+            $("#box-saved-news").append(`<h4 class="card-title saved-count">Saved News : ${Saved.length}</h4>`)
             $.each(Saved, (key, value) => {
                 console.log(value.title)
                 $("#box-saved-news").append(`
-                <h4 class="card-title saved-count">Saved News : ${Saved.length}</h4>
-                <h5 class="card-text saved-header">${value.title} <a>${value.tag}</a></h5>
+                <h5 class="card-text saved-header">-${value.title} <a>${value.tag}</a></h5>
                 `)
             })
         })
@@ -309,40 +304,13 @@ function fetchSavedBoX() {
 
 function getUserName() {
     console.log(`get full name function`)
+    $("#user-name").empty()
     $("#user-name").append(`
         <div class="card-header" id="namaUser">Hello, ${(localStorage.username).split('@').slice(0,1)}</div>
         `)
 }
 
 
-// Menampilkan berita di sidebar kanan
-// function fetchBeritaSaved() {
-//     $.ajax({
-//         method: "GET",
-//         url: "http://localhost:3000" + '/user/collection',
-//         headers: {
-//             access_token: localStorage.access_token
-//         }
-//     }).done(result => {
-//         $("#title-for-user").text('result:')
-//         $('#saved-news').empty()
-//         $.each(result, function (i, e) {
-//             $('#saved-news').append(`
-//              <div class="card headline">
-//              <div class="card-header">
-//                ${e.publishedAt}
-//              </div>
-//              <div class="card-body">
-//                <h4 class="card-title"><a href="${e.news_url}">${e.title}</a></h4>
-//                <span class="badge badge-dark">${e.folder}</span>
-//              </div>
-//              </div>
-//              `)
-//         })
-//     }).fail(err => {
-//         console.log(err)
-//     })
-// }
 function showRecomend(event) {
     event.preventDefault()
 
@@ -370,7 +338,7 @@ function showSavedBerita (event) {
               <h4 class="card-title">${e.title}</h4>
               <p class="card-text">${e.description}</p>
               <span class="badge badge-primary">${e.tag}</span>
-              <a href="${e.news_url}" class="btn btn-primary">Original Source</a>
+              <a target="_blank" href="${e.news_url}" class="btn btn-primary">Original Source</a>
               <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="deleteBerita(event, ${e.id})">Hapus</button>
                 </div>
@@ -494,4 +462,9 @@ function fetchTag () {
              `);
         });
     }) 
+}
+
+function showHeadline(event) {
+    event.preventDefault();
+    fetchDataBerita();
 }
