@@ -1,5 +1,13 @@
 let baseUrl = 'http://localhost:3000'
 userFullName = ''
+let userId = null
+
+var title = null,
+description = null,
+publishedA =  null,
+news_url = null
+
+
 
 $(document).ready(function () {
     console.log("masuk!");
@@ -33,6 +41,7 @@ function beforeLogin() {
 
 //show home-base
 function afterLogin() {
+    fetchDataBerita()
     $('.tagInput').hide();
     $(".afterLogin").show()
     $(".beforeLogin").hide()
@@ -149,25 +158,30 @@ $("#logout").click(() => {
     localStorage.removeItem(`access_token`)
     $("#email").val('')
     $("#password").val('')
+    // ADD 
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
     beforeLogin()
 })
 
-// function onSignIn(googleUser) {
-//     const token_id = googleUser.getAuthResponse().id_token;
+function onSignIn(googleUser) {
+    const token_id = googleUser.getAuthResponse().id_token;
 
-//     $.ajax({
-//         method: 'POST',
-//         url: 'http://localhost:3000/googlesignin',
-//         data: {token_id}
-//     })
-//         .done(result => {
-//             localStorage.setItem('access_token', result.access_token)
-//             afterLogin()
-//         })
-//         .fail(err => {
-//             console.log(err)
-//         })
-// }
+    $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/googlesignin',
+        data: {token_id}
+    })
+        .done(result => {
+            localStorage.setItem('access_token', result.access_token)
+            afterLogin()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
 
 // function signOut() {
 //     var auth2 = gapi.auth2.getAuthInstance();
@@ -177,7 +191,8 @@ $("#logout").click(() => {
 // }
 
 // dapetin berita dari rekomendasi server
-function fetchDataBerita() {
+function fetchDataBerita () {
+    console.log ('masuk')
     $.ajax({
         method: "GET",
         url: "http://localhost:3000" + '/news/headline',
@@ -185,25 +200,25 @@ function fetchDataBerita() {
             access_token: localStorage.access_token
         }
     }).done(result => {
-        // $('#dataBerita').empty()
-        // console.log ('masuik')
-        $.each(result, function (i, e) {
-            $('#dataBerita').append(`
+        $('#dataBerita').empty()
+        console.log ('masuik', result)
+        $.each(result, function (i, e) { 
+             $('#dataBerita').append(`
              <div class="card headline">
-             <div class="card-header">
+             <div class="card-header" id="pub-${i}">
                ${e.publishedAt}
              </div>
              <div class="card-body">
-               <h4 class="card-title">${e.title}</h4>
-               <p class="card-text">${e.description}</p>
-               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
-                            Berita</a>
-                        <div class="input-group" class="tagInput-${e.id} tagInput">
-                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
+               <h4 class="card-title" id="judul-${i}">${e.title}</h4>
+               <p class="card-text" id="des-${i}">${e.description}</p>
+               <a href="${e.news_url}" class="btn btn-primary" id="url-${i}">Baca Berita</a>
+               <!-- <a href="#" onclick="saveBeritaForm(event, ${i})" class="btn btn-success" class="simpanBerita-${i}">Simpan
+                            Berita</a> -->
+                        <div class="input-group" id="tagInput-${i} tagInput">
+                            <input type="text" class="form-control" placeholder="Tag" id="tagFromUser-${i}">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="button"
-                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
+                                    onclick="saveBerita(event, ${i})">Simpan</button>
                             </div>
                         </div>
              </div>
@@ -218,17 +233,21 @@ function fetchDataBerita() {
 }
 
 // mencari berita dari inout search
-function searchBerita(event) {
-    console.log('masuk search luar')
+
+function searchBerita (event) {
+    console.log ('masuk search luar')
+    let judul = $("#cari-berita").val()
+    console.log ('dari judul: ', judul)
+
     event.preventDefault()
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: "http://localhost:3000" + '/news/search',
         headers: {
             access_token: localStorage.access_token
         },
         data: {
-            query: $("#judul-berita").val()
+            query: judul
         }
     }).done(result => {
         console.log(result)
@@ -236,6 +255,7 @@ function searchBerita(event) {
         $('.headline').hide()
         $.each(result, (i, e) => {
             console.log(e)
+            // console.log (e)
             $('#dataBerita').append(`
             <div class="card ">
             <img src="https://www.agfa.com/printing/wp-content/uploads/sites/19/2020/04/newspapers-stack-1to2-600x300.jpg">
@@ -322,9 +342,13 @@ function getUserName() {
 //         console.log(err)
 //     })
 // }
+function showRecomend(event) {
+    event.preventDefault()
 
-// Menampilkan semua berita ketika user melihat view all
-function showSavedBerita(event) {
+}
+
+// Menampilkan Berita Collection
+function showSavedBerita (event) {
     event.preventDefault()
     $.ajax({
         method: "GET",
@@ -344,8 +368,17 @@ function showSavedBerita(event) {
             <div class="card-body">
               <h4 class="card-title">${e.title}</h4>
               <p class="card-text">${e.description}</p>
-              <span class="badge badge-primary">${e.folder}</span>
-              <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+              <span class="badge badge-primary">${e.tag}</span>
+              <a href="${e.news_url}" class="btn btn-primary">Original Source</a>
+              <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="deleteBerita(event, ${e.id})">Hapus</button>
+                </div>
+                <div class="input-group" id="tagInput-${i} tagInput">
+                    <input type="text" class="form-control" placeholder="Tag" id="tagFromDatabase-${e.id}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeTag(event, ${e.id})">Simpan</button>
+                    </div>
+                </div>
             </div>
             </div>
             `);
@@ -367,7 +400,10 @@ function saveBeritaForm(event, id) {
 // Ini untuk save berita -- tinggal sesuaiin dengan server
 function saveBerita(event, id) {
     event.preventDefault()
-    var tag = $(`.tagFromUser${id}`).val();
+    console.log ('masuk save berita')
+    var tag = $(`#tagFromUser-${id}`).val()
+    var title = $(`#judul-${id}`).text()
+    console.log (title, tag)
     if (tag) {
         $.ajax({
             type: "POST",
@@ -376,23 +412,64 @@ function saveBerita(event, id) {
                 access_token: localStorage.access_token
             },
             data: {
-                // ini mengunakan data skeleton karena belum tahu 
+                // ini mengunakan data skeleton karena belum tahu
+                title: $(`#judul-${id}`).text(),
+                description: $(`#des-${id}`).text(),
+                publishedAt: $(`#pub-${id}`).text(),
+                news_url: $(`#url-${id}`).attr('href'),
                 tag: tag,
-                id: id
             }
         }).done(result => {
             // setelah save 
-            $('#tagInput').hide();
-            $("#simpanBerita").hide();
-            $('#tagInBerita').append(`
-            ${result.tag}
-            `);
+            // $('#tagInput').hide();
+
+            $(`#tagInput-${id}`).remove();
+            // $('#tagInBerita').append(`
+            //     ${result.tag}
+            // `);
+            console.log (result)
         }).fail(err => {
             console.log(err)
         })
-    } else {
-        $('#tagInput').hide();
-        $("#simpanBerita").show();
+    }
+}
 
+// Ini untuk hapus berita
+function deleteBerita (event, id) {
+    event.preventDefault()
+    console.log (id)
+    $.ajax({
+        type: "DELETE",
+        url: `http://localhost:3000/user/collection/id/${id}`,
+        headers: {
+            access_token: localStorage.access_token
+        },
+    }).done(result => {
+        showSavedBerita(event)
+    }).fail(err => {
+        console.log (err)
+    })
+}
+
+//change tag
+function changeTag(event, id) {
+    event.preventDefault()
+    const tag = $(`#tagFromDatabase-${id}`).val()
+    console.log (tag)
+    if (tag) {
+        $.ajax({
+            type: "PATCH",
+            url: `http://localhost:3000/user/collection/id/${id}`,
+            headers: {
+                access_token: localStorage.access_token
+            },
+            data: {
+                tag: tag,
+            }
+        }).done(result => {
+            showSavedBerita(event)
+        }).fail(err => {
+            console.log (err)
+        })
     }
 }

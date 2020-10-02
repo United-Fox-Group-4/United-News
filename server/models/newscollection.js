@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 						msg: "Tag cannot be empty",
 					},
 					notNull: {
-						msg: "Tag Date cannot be empty",
+						msg: "Tag cannot be empty",
 					},
 				},
 			},
@@ -60,6 +60,18 @@ module.exports = (sequelize, DataTypes) => {
 					},
 					notNull: {
 						msg: "User Id is Required",
+					},
+				},
+			},
+			news_url: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notEmpty: {
+						msg: "URL cannot be empty",
+					},
+					notNull: {
+						msg: "URL cannot be empty",
 					},
 				},
 			},
