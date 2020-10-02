@@ -1,4 +1,5 @@
 let baseUrl = 'http://localhost:3000'
+userFullName = ''
 let userId = null
 
 var title = null,
@@ -49,6 +50,11 @@ function afterLogin() {
     $(".registerForm").hide()
     $(".loader").hide()
     $('#userSaved').hide();
+    fetchDataBerita()
+    fetchSavedBoX()
+    $("#box-saved-news").show()
+
+    getUserName()
 }
 
 //show form register
@@ -67,6 +73,8 @@ function home() {
     $(".firstPage").hide()
     $(".registerForm").hide()
     $(".loader").hide()
+
+
 }
 //loader animate
 function loader() {
@@ -84,18 +92,19 @@ function onChangeLeaveEndDate() {
         $(".loader").hide()
         beforeLogin()
     }, 3000);
-
 }
 
 function transition() {
     console.log(`masuuk`)
     onChangeLeaveEndDate()
     $('#userSaved').hide()
+    $(".firstPage").hide()
+    $(".beforeLogin").hide()
+
 }
 
 //register client
-function registerUser(event) {
-    event.preventDefault()
+function registerUser() {
     let fullname = $("#register-fullname").val()
     let email = $("#register-email").val()
     let password = $("#register-password").val()
@@ -110,7 +119,7 @@ function registerUser(event) {
         }
     })
         .done(res => {
-            // console.log(`register success`, res)
+            console.log(`register success`, res)
             //test regis
             beforeLogin()
         })
@@ -125,7 +134,9 @@ function loginApp(event) {
     event.preventDefault()
     let email = $("#email").val()
     let password = $("#password").val()
-    console.log(email, password)
+
+    localStorage.setItem('username', email)
+    // console.log(localStorage.username)
 
     $.ajax({
         method: 'POST',
@@ -215,14 +226,15 @@ function fetchDataBerita () {
              </div>
              `);
         })
-    }).fail( err => {
-        console.log (err, "ERRor")
-    }).always(()=> {
+    }).fail(err => {
+        console.log(err, "ERRor")
+    }).always(() => {
         $("#title-for-user").text('Recomended For You:');
     })
 }
 
 // mencari berita dari inout search
+
 function searchBerita (event) {
     console.log ('masuk search luar')
     let judul = $("#cari-berita").val()
@@ -238,11 +250,12 @@ function searchBerita (event) {
         data: {
             query: judul
         }
-    }).done( result => {
-        console.log (result)
+    }).done(result => {
+        console.log(result)
         $('#dataBerita').empty()
         $('.headline').hide()
         $.each(result, (i, e) => {
+            console.log(e)
             // console.log (e)
             $('#dataBerita').append(`
             <div class="card ">
@@ -258,17 +271,52 @@ function searchBerita (event) {
             </div>
             </div> 
             `);
-       })
+        })
     }).fail(err => {
-        console.log ('masuk error search')
-        console.log (err)
+        console.log('masuk error search')
+        console.log(err)
     }).always(() => {
-        console.log ('masuk always')
+        console.log('masuk always')
     })
 }
 
-// // Menampilkan berita di sidebar kanan
-// function fetchBeritaSaved () {
+//box heading title save berita kanan
+function fetchSavedBoX() {
+    console.log(`saved albar`)
+    let Saved = []
+    let dataTest = `test`
+    $.ajax({
+        method: 'GET',
+        url: `http://localhost:3000/user/collection`,
+        headers: {
+            access_token: localStorage.access_token
+        }
+    })
+        .done(res => {
+            Saved = res
+            $.each(Saved, (key, value) => {
+                console.log(value.title)
+                $("#box-saved-news").append(`
+                <h4 class="card-title saved-count">Saved News : ${Saved.length}</h4>
+                <h5 class="card-text saved-header">${value.title} <a>${value.tag}</a></h5>
+                `)
+            })
+        })
+        .fail(err => {
+            console.log(`err saved news`, err)
+        })
+}
+
+function getUserName() {
+    console.log(`get full name function`)
+    $("#user-name").append(`
+        <div class="card-header" id="namaUser">Hello, ${(localStorage.username).split('@').slice(0,1)}</div>
+        `)
+}
+
+
+// Menampilkan berita di sidebar kanan
+// function fetchBeritaSaved() {
 //     $.ajax({
 //         method: "GET",
 //         url: "http://localhost:3000" + '/user/collection',
@@ -278,8 +326,8 @@ function searchBerita (event) {
 //     }).done(result => {
 //         $("#title-for-user").text('result:')
 //         $('#saved-news').empty()
-//         $.each(result, function (i, e) { 
-//              $('#saved-news').append(`
+//         $.each(result, function (i, e) {
+//             $('#saved-news').append(`
 //              <div class="card headline">
 //              <div class="card-header">
 //                ${e.publishedAt}
@@ -291,8 +339,8 @@ function searchBerita (event) {
 //              </div>
 //              `)
 //         })
-//     }).fail( err=> {
-//         console.log (err)
+//     }).fail(err => {
+//         console.log(err)
 //     })
 // }
 function showRecomend(event) {
@@ -309,7 +357,7 @@ function showSavedBerita (event) {
         headers: {
             access_token: localStorage.access_token
         }
-    }).done( result => {
+    }).done(result => {
         $('#dataBerita').empty()
         // $('.headline').hide()
         $.each(result, (i, e) => {
@@ -335,9 +383,9 @@ function showSavedBerita (event) {
             </div>
             </div>
             `);
-       })
+        })
     }).fail(err => {
-        console.log (err)
+        console.log(err)
     })
 }
 
@@ -382,7 +430,7 @@ function saveBerita(event, id) {
             // `);
             console.log (result)
         }).fail(err => {
-            console.log (err)
+            console.log(err)
         })
     }
 }
