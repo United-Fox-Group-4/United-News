@@ -43,61 +43,57 @@ class UserController {
             });
     }
 
-    static searchNews(req, res, next) {
-        axios({
+    static async searchNews(req, res, next) {
+        try {
+            const results = []
+
+            // newsapi
+            const data1 = await axios({
                 method: 'get',
-                url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=c93fa6b8756c4cfabd0f46e1c0ae1154`,
-                params: {
-                    q: req.body.title
+                url: `https://newsapi.org/v2/everything?q=${req.body.query}`,
+                headers: {Authorization: process.env.NEWS_API}
+            })
+            results.push({
+                title: data1.data.articles[0].title,
+                description: data1.data.articles[0].description,
+                publishedAt: data1.data.articles[0].publishedAt.slice(0, 10),
+                news_url: data1.data.articles[0].url
+            })
+            
+            // currents api
+            const data2 = await axios({
+                method: 'get',
+                url: `https://api.currentsapi.services/v1/search?language=en&keywords=${req.body.query}&apiKey=${process.env.CURRENTS_API}`
+            })
+            results.push({
+                title: data2.data.news[0].title,
+                description: data2.data.news[0].description,
+                publishedAt: data2.data.news[0].published.slice(0, 10),
+                news_url: data2.data.news[0].url
+            })
+
+            // news catcher
+            const data3 = await axios({
+                method: "get",
+                url: `https://newscatcher.p.rapidapi.com/v1/search?lang=en&media=True&sort_by=relevancy&q=${req.body.query}`,
+                headers: {
+                    "x-rapidapi-host": "newscatcher.p.rapidapi.com",
+                    "x-rapidapi-key": process.env.NEWS_CATCHER,
+                    "useQueryString": true
                 }
             })
-            .then(result => {
-                let data = result.data.articles
-                let hasil
-                data.forEach(element => {
-                    hasil = element
-                });
-                return res.status(200).json({ title: hasil.title, description: hasil.description, publishedAt: hasil.publishedAt.slice(0, 10), news_url: hasil.url })
+            results.push({
+                title: data3.data.articles[0].title,
+                description: data3.data.articles[0].summary,
+                publishedAt: data3.data.articles[0].published_date.slice(0, 10),
+                news_url: data3.data.articles[0].link
             })
-            .catch(err => {
-                return next(err)
-            });
 
-        axios({
-                method: 'get',
-                url: `https://api.currentsapi.services/v1/latest-news?apiKey=OLdwdqxBJ-aozEWpU7AU9XzHTVkRkNW1dfJVrc_3x9v-Wzdh`,
-                params: {
-                    q: req.body.title
-                }
-            })
-            .then(result => {
-                let data = result.data.news
-                let hasil
-                data.forEach(element => {
-                    hasil = element
-                });
-                return res.status(200).json({ title: hasil.title, description: hasil.description, publishedAt: hasil.published.slice(0, 10), news_url: hasil.url })
-            })
-            .catch(err => {
-                return next(err)
-            });
+            res.status(200).json(results)
 
-        axios({
-                method: 'get',
-                url: `https://newscatcher.p.rapidapi.com/v1/aggregation?agg_by=day&from=2020%252F06%252F05&q=Apple`,
-                headers: 'x-rapidapi-key: 93c1e02146msh32c9822a8c8f63bp106012jsnfd87de2b8b79'
-            })
-            .then(result => {
-                let data = result.data.news
-                let hasil
-                data.forEach(element => {
-                    hasil = element
-                });
-                return res.status(200).json({ title: hasil.title, description: hasil.description, publishedAt: hasil.published.slice(0, 10), news_url: hasil.url })
-            })
-            .catch(err => {
-                return next(err)
-            });
+        } catch(err) {
+            next(err)
+        }
     }
 
     static async headline(req, res, next) {
