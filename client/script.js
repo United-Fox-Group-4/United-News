@@ -202,7 +202,7 @@ function fetchDataBerita () {
                             </div>
                         </div>
              </div>
-             </div> 
+             </div>
              `);
         })
     }).fail( err => {
@@ -214,6 +214,7 @@ function fetchDataBerita () {
 
 // mencari berita dari inout search
 function searchBerita (event) {
+    console.log ('masuk search luar')
     event.preventDefault()
     $.ajax({
         method: "GET",
@@ -225,56 +226,62 @@ function searchBerita (event) {
             query: $("#judul-berita").val()
         }
     }).done( result => {
+        console.log (result)
         $('#dataBerita').empty()
         $('.headline').hide()
         $.each(result, (i, e) => {
+            console.log (e)
             $('#dataBerita').append(`
             <div class="card ">
+            <img src="https://www.agfa.com/printing/wp-content/uploads/sites/19/2020/04/newspapers-stack-1to2-600x300.jpg">
             <div class="card-header">
               ${e.publishedAt}
             </div>
             <div class="card-body">
               <h4 class="card-title">${e.title}</h4>
               <p class="card-text">${e.description}</p>
-              <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+              <a href="${e.news_url}" class="btn btn-dark">Baca Berita</a>
 
             </div>
             </div> 
             `);
        })
     }).fail(err => {
+        console.log ('masuk error search')
         console.log (err)
+    }).always(() => {
+        console.log ('masuk always')
     })
 }
 
-// Menampilkan berita di sidebar kanan
-function fetchBeritaSaved () {
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000" + '/user/collection',
-        headers: {
-            access_token: localStorage.access_token
-        }
-    }).done(result => {
-        $("#title-for-user").text('result:')
-        $('#saved-news').empty()
-        $.each(result, function (i, e) { 
-             $('#saved-news').append(`
-             <div class="card headline">
-             <div class="card-header">
-               ${e.publishedAt}
-             </div>
-             <div class="card-body">
-               <h4 class="card-title"><a href="${e.news_url}">${e.title}</a></h4>
-               <span class="badge badge-primary">${e.folder}</span>
-             </div>
-             </div>
-             `);
-        })
-    }).fail( err=> {
-        console.log (err)
-    })
-}
+// // Menampilkan berita di sidebar kanan
+// function fetchBeritaSaved () {
+//     $.ajax({
+//         method: "GET",
+//         url: "http://localhost:3000" + '/user/collection',
+//         headers: {
+//             access_token: localStorage.access_token
+//         }
+//     }).done(result => {
+//         $("#title-for-user").text('result:')
+//         $('#saved-news').empty()
+//         $.each(result, function (i, e) { 
+//              $('#saved-news').append(`
+//              <div class="card headline">
+//              <div class="card-header">
+//                ${e.publishedAt}
+//              </div>
+//              <div class="card-body">
+//                <h4 class="card-title"><a href="${e.news_url}">${e.title}</a></h4>
+//                <span class="badge badge-dark">${e.folder}</span>
+//              </div>
+//              </div>
+//              `)
+//         })
+//     }).fail( err=> {
+//         console.log (err)
+//     })
+// }
 
 // Menampilkan semua berita ketika user melihat view all
 function showSavedBerita (event) {
@@ -287,7 +294,7 @@ function showSavedBerita (event) {
         }
     }).done( result => {
         $('#dataBerita').empty()
-        $('.headline').hide()
+        // $('.headline').hide()
         $.each(result, (i, e) => {
             $('#dataBerita').append(`
             <div class="card ">
