@@ -393,7 +393,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### GET /user/collection/:id
+### GET /user/collection/id/:id
 
 > Get news saved by user by id
 
@@ -454,7 +454,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### GET /user/collection/:tag
+### GET /user/collection/tag/:tag
 
 > Get news saved by user by id
 
@@ -515,7 +515,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### DELETE /user/collection/:id
+### DELETE /user/collection/id/:id
 
 > Delete news saved in collection
 
@@ -567,7 +567,7 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### PATCH /user/collection/:id
+### PATCH /user/collection/id/:id
 
 > Change tag of the news
 

@@ -36,6 +36,14 @@
         </div>
     </nav>
 
+    <!--preloader-->
+    <div class="loader">
+        <div class="box-loader loading">
+            <img src="newspaper.png">
+            <h5>Loading news...</h5>
+        </div>
+    </div>
+
     <!--base before form login-->
     <div class="banner firstPage">
         <!--header text-->
@@ -46,7 +54,7 @@
                 <h1 class="display-4">Around</h1>
                 <h1 class="display-4">The World</h1>
                 <p class="lead">we share the news all around the world, lets get updated all days .</p>
-                <a class="btn btn-dark btn-lg" onclick="beforeLogin()" href="#" role="button">Login</a>
+                <a class="btn btn-dark btn-lg" onclick="transition()" href="#" role="button">Login</a>
             </div>
         </div>
     </div>
@@ -164,9 +172,11 @@
         <!--require script function-->
         <script src="script.js"></script>
 
-        <!--require Script API Google Oauth-->
-        <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!--require Script API Google Oauth-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
+
+
 
 </html>
