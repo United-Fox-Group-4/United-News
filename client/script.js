@@ -325,6 +325,12 @@ function showSavedBerita (event) {
               <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="deleteBerita(event, ${e.id})">Hapus</button>
                 </div>
+                <div class="input-group" id="tagInput-${i} tagInput">
+                    <input type="text" class="form-control" placeholder="Tag" id="tagFromDatabase-${e.id}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeTag(event, ${e.id})">Simpan</button>
+                    </div>
+                </div>
             </div>
             </div>
             `);
@@ -395,4 +401,27 @@ function deleteBerita (event, id) {
     }).fail(err => {
         console.log (err)
     })
+}
+
+//change tag
+function changeTag(event, id) {
+    event.preventDefault()
+    const tag = $(`#tagFromDatabase-${id}`).val()
+    console.log (tag)
+    if (tag) {
+        $.ajax({
+            type: "PATCH",
+            url: `http://localhost:3000/user/collection/id/${id}`,
+            headers: {
+                access_token: localStorage.access_token
+            },
+            data: {
+                tag: tag,
+            }
+        }).done(result => {
+            showSavedBerita(event)
+        }).fail(err => {
+            console.log (err)
+        })
+    }
 }
