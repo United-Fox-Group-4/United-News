@@ -4,6 +4,7 @@ const authorization = require("../middlewares/authorization")
 
 router.get("/collection/", UserController.getAllCollection)
 router.get("/collection/id/:id", authorization, UserController.getCollectionById)
+
 router.get("/collection/tag/:tag", UserController.getCollectionByTag)
 
 router.post("/collection", UserController.addNewsCollection)

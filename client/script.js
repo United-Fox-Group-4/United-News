@@ -40,6 +40,7 @@ function beforeLogin() {
 
 //show home-base
 function afterLogin() {
+    fetchTag()
     fetchDataBerita()
     $('.tagInput').hide();
     $(".afterLogin").show()
@@ -424,4 +425,25 @@ function changeTag(event, id) {
             console.log (err)
         })
     }
+}
+
+// Untuk menampilkan tag yang user punya
+function fetchTag () {
+    console.log ('masuk tag')
+    $.ajax({
+        method: "get",
+        url: "http://localhost:3000" + '/news/tag',
+        headers: {
+            access_token: localStorage.access_token
+        }
+    }).done(result => {
+        console.log ("berhasil", result)
+        $.each(result, function (i, e) { 
+             $('#saved-tag').append(`
+             <div class="card-header">
+             <a onclick="showSavedByTag(event, "${e.tag}")" href="#">${e.tag}</a>
+            </div>
+             `);
+        });
+    }) 
 }
