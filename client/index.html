@@ -3,7 +3,8 @@
 
 <head>
     <!--Client ID Google-->
-    <meta name="google-signin-client_id" content="132785609217-l3bhcpajdtk3n0invlapvpqgmvjgaca2.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="132785609217-l3bhcpajdtk3n0invlapvpqgmvjgaca2.apps.googleusercontent.com">
 
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -131,11 +132,22 @@
             <div class="col">
                 <div>
                     <div class="card border-primary mb-3">
-                        <div class="card-header" id="namaUser">Selamat datang kembali</div>
-                        <div class="card-body text-primary">
+                        <div id=user-name>
+                            <!--
+                                 <div class="card-header" id="namaUser">Selamat datang kembali</div>
+                            -->
+                        </div>
 
-                            <!-- <h5 class="card-title">Saved News: 5</h5> -->
-                            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <div class="card-body text-primary" id="contentsaved">
+                            <div id="box-saved-news">
+                                <!--append data savednews-->
+                                <!--
+                                <h5 class="card-title saved-count">Saved News: 5</h5>
+                                <p class="card-text saved-header">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            -->
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -165,12 +177,12 @@
         </div>
     </div>
 
-        <!--define cdn query-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous"></script>
-        <!--require script function-->
-        <script src="script.js"></script>
+    <!--define cdn query-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <!--require script function-->
+    <script src="script.js"></script>
 
     <!--require Script API Google Oauth-->
     <script src="https://apis.google.com/js/platform.js" async defer></script>

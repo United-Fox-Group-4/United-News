@@ -55,9 +55,11 @@ body {
     margin-bottom: 10px;
 }
 
+
+
 .loader{
   margin: 0 auto;
-  background-color: rgb(8, 8, 8);
+  background-color: rgb(31, 30, 30);
   height: 800px;
   padding: 100px 100px 100px 100px;
   text-align: center;
@@ -66,7 +68,7 @@ body {
 .box-loader{
   margin: 0 auto;
   width: 30%;
-  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.836);
   float: center;
   padding: 10px;
   text-align: center;
@@ -77,7 +79,7 @@ body {
 .loading {
   width: 80px;
   height: 80px;
-  background:turquoise;
+  background:rgb(121, 121, 121);
   border-radius: 10px;
   position: relative;
   animation: loader 3s infinite;
@@ -90,4 +92,25 @@ body {
   100% {top: 100px;}
   0%   {top: 0px;}
   75%  {top: 50px}
+}
+
+#contentsaved{
+  color: brown;
+  text-align: left;
+ }
+ #contentsaved a{
+   color:rgb(1, 0, 59);
+  font-size: 10px;
+ }
+
+ #contentsaved h4{
+  color:rgb(6, 17, 77);
+ font-size: 1.5rem;
+ font-weight: bolder;
+}
+
+#contentsaved h5{
+  color:rgb(0, 8, 17);
+ font-size: 1em;
+ font-weight: bold;
 }
