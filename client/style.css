@@ -1,0 +1,116 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    height: auto;
+  }
+  
+  /* Header/Logo Title */
+  .banner {
+    padding: 100px;
+    text-align: center;
+    background-image: url("https://images.unsplash.com/photo-1591534180437-507029f6ee60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1049&q=80");
+    background-size: cover;
+    color: rgb(29, 28, 28);
+    font-size: 30px;
+    height: 850px;
+    display: block;
+    margin: auto;
+  }
+
+  .box-banner{
+    margin: 0 auto;
+    background-color:transparent;
+    font-family: 'Patua One', cursive;
+    margin-top: 100px;
+    height: 400px;
+    width: 30%;
+    min-width: 30%;
+    padding: 20px;
+  }
+
+  .box-banner h1{
+      font-size: 1.4em;
+      line-height: 80%;
+      text-align: center;
+  }
+
+  .box-login{
+      margin: 0 auto;
+      background-color: transparent;
+      width: 30%;
+      text-align: center;
+      margin-top: 100px;
+      font-family: 'Patua One', cursive;
+  }
+  
+  /* Page Content */
+  .content {padding:20px;}
+
+
+  .jumbotron {
+    background: none
+  }
+
+.card {
+    margin-bottom: 10px;
+}
+
+
+
+.loader{
+  margin: 0 auto;
+  background-color: rgb(31, 30, 30);
+  height: 800px;
+  padding: 100px 100px 100px 100px;
+  text-align: center;
+}
+
+.box-loader{
+  margin: 0 auto;
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0.836);
+  float: center;
+  padding: 10px;
+  text-align: center;
+  color:white;
+  margin-top: 100px;
+}
+
+.loading {
+  width: 80px;
+  height: 80px;
+  background:rgb(121, 121, 121);
+  border-radius: 10px;
+  position: relative;
+  animation: loader 3s infinite;
+}
+
+@keyframes loader {
+  0%   {top: 0px;}
+  25%  {top: 200px;}
+  75%  {top: 50px}
+  100% {top: 100px;}
+  0%   {top: 0px;}
+  75%  {top: 50px}
+}
+
+#contentsaved{
+  color: brown;
+  text-align: left;
+ }
+ #contentsaved a{
+   color:rgb(1, 0, 59);
+  font-size: 10px;
+ }
+
+ #contentsaved h4{
+  color:rgb(6, 17, 77);
+ font-size: 1.5rem;
+ font-weight: bolder;
+}
+
+#contentsaved h5{
+  color:rgb(0, 8, 17);
+ font-size: 1em;
+ font-weight: bold;
+}
