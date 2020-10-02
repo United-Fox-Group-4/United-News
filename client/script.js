@@ -190,6 +190,7 @@ function fetchDataBerita () {
         }
     }).done(result => {
         $('#dataBerita').empty()
+
         console.log ('masuik', result)
         $.each(result, function (i, e) { 
              $('#dataBerita').append(`
@@ -259,7 +260,7 @@ function searchBerita (event) {
         console.log ('masuk error search')
         console.log (err)
     }).always(() => {
-        console.log ('masuk always')
+        $("#title-for-user").text('Search result:');
     })
 }
 
@@ -291,8 +292,49 @@ function searchBerita (event) {
 //         console.log (err)
 //     })
 // }
-function showRecomend(event) {
+
+// Menampilkan semua berita ketika user melihat view all
+function showSavedBerita (event) {
+    $('#dataBerita').empty()
+    $("#title-for-user").text("Collected News")
     event.preventDefault()
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000" + '/user/collection',
+        headers: {
+            access_token: localStorage.access_token
+        }
+    }).done( result => {
+        $('#dataBerita').empty()
+        // console.log ('masuik')
+        $.each(result, function (i, e) { 
+             $('#dataBerita').append(`
+             <div class="card headline">
+             <div class="card-header">
+               ${e.publishedAt}
+             </div>
+             <div class="card-body">
+               <h4 class="card-title">${e.title}</h4>
+               <p class="card-text">${e.description}</p>
+               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
+               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
+                            Berita</a>
+                        <div class="input-group" class="tagInput-${e.id} tagInput">
+                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
+                            </div>
+                        </div>
+             </div>
+             </div>
+             `);
+       })
+    }).fail(err => {
+        console.log (err)
+    }).always(()=> {
+        $("#title-for-user").text('Your News Collection:');
+    })
 
 }
 
@@ -372,4 +414,9 @@ function saveBerita(event, id) {
             console.log (err)
         })
     }
+}
+
+function showHeadline(event) {
+    event.preventDefault()
+    fetchDataBerita()
 }
