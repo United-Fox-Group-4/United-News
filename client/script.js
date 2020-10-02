@@ -3,11 +3,9 @@ userFullName = ''
 let userId = null
 
 var title = null,
-description = null,
-publishedA =  null,
-news_url = null
-
-
+    description = null,
+    publishedA = null,
+    news_url = null
 
 $(document).ready(function () {
     console.log("masuk!");
@@ -150,7 +148,6 @@ function loginApp(event) {
         })
         .fail((err) => {
             console.log(`Cant Login!`, err)
-
         })
 }
 
@@ -172,7 +169,7 @@ function onSignIn(googleUser) {
     $.ajax({
         method: 'POST',
         url: 'http://localhost:3000/googlesignin',
-        data: {token_id}
+        data: { token_id }
     })
         .done(result => {
             localStorage.setItem('access_token', result.access_token)
@@ -191,8 +188,8 @@ function onSignIn(googleUser) {
 // }
 
 // dapetin berita dari rekomendasi server
-function fetchDataBerita () {
-    console.log ('masuk')
+function fetchDataBerita() {
+    console.log('masuk')
     $.ajax({
         method: "GET",
         url: "http://localhost:3000" + '/news/headline',
@@ -201,9 +198,9 @@ function fetchDataBerita () {
         }
     }).done(result => {
         $('#dataBerita').empty()
-        console.log ('masuik', result)
-        $.each(result, function (i, e) { 
-             $('#dataBerita').append(`
+        console.log('masuik', result)
+        $.each(result, function (i, e) {
+            $('#dataBerita').append(`
              <div class="card headline">
              <div class="card-header" id="pub-${i}">
                ${e.publishedAt}
@@ -234,10 +231,10 @@ function fetchDataBerita () {
 
 // mencari berita dari inout search
 
-function searchBerita (event) {
-    console.log ('masuk search luar')
+function searchBerita(event) {
+    console.log('masuk search luar')
     let judul = $("#cari-berita").val()
-    console.log ('dari judul: ', judul)
+    console.log('dari judul: ', judul)
 
     event.preventDefault()
     $.ajax({
@@ -293,10 +290,12 @@ function fetchSavedBoX() {
     })
         .done(res => {
             Saved = res
+            $("#box-saved-news").append(`
+                <h4 class="card-title saved-count">Saved News : ${Saved.length}</h4>
+                `)
             $.each(Saved, (key, value) => {
                 console.log(value.title)
                 $("#box-saved-news").append(`
-                <h4 class="card-title saved-count">Saved News : ${Saved.length}</h4>
                 <h5 class="card-text saved-header">${value.title} <a>${value.tag}</a></h5>
                 `)
             })
@@ -309,7 +308,7 @@ function fetchSavedBoX() {
 function getUserName() {
     console.log(`get full name function`)
     $("#user-name").append(`
-        <div class="card-header" id="namaUser">Hello, ${(localStorage.username).split('@').slice(0,1)}</div>
+        <div class="card-header" id="namaUser">Hello, ${(localStorage.username).split('@').slice(0, 1)}</div>
         `)
 }
 
@@ -348,7 +347,7 @@ function showRecomend(event) {
 }
 
 // Menampilkan Berita Collection
-function showSavedBerita (event) {
+function showSavedBerita(event) {
     event.preventDefault()
     $.ajax({
         method: "GET",
@@ -400,10 +399,10 @@ function saveBeritaForm(event, id) {
 // Ini untuk save berita -- tinggal sesuaiin dengan server
 function saveBerita(event, id) {
     event.preventDefault()
-    console.log ('masuk save berita')
+    console.log('masuk save berita')
     var tag = $(`#tagFromUser-${id}`).val()
     var title = $(`#judul-${id}`).text()
-    console.log (title, tag)
+    console.log(title, tag)
     if (tag) {
         $.ajax({
             type: "POST",
@@ -427,7 +426,7 @@ function saveBerita(event, id) {
             // $('#tagInBerita').append(`
             //     ${result.tag}
             // `);
-            console.log (result)
+            console.log(result)
         }).fail(err => {
             console.log(err)
         })
@@ -435,9 +434,9 @@ function saveBerita(event, id) {
 }
 
 // Ini untuk hapus berita
-function deleteBerita (event, id) {
+function deleteBerita(event, id) {
     event.preventDefault()
-    console.log (id)
+    console.log(id)
     $.ajax({
         type: "DELETE",
         url: `http://localhost:3000/user/collection/id/${id}`,
@@ -447,7 +446,7 @@ function deleteBerita (event, id) {
     }).done(result => {
         showSavedBerita(event)
     }).fail(err => {
-        console.log (err)
+        console.log(err)
     })
 }
 
@@ -455,7 +454,7 @@ function deleteBerita (event, id) {
 function changeTag(event, id) {
     event.preventDefault()
     const tag = $(`#tagFromDatabase-${id}`).val()
-    console.log (tag)
+    console.log(tag)
     if (tag) {
         $.ajax({
             type: "PATCH",
@@ -469,7 +468,7 @@ function changeTag(event, id) {
         }).done(result => {
             showSavedBerita(event)
         }).fail(err => {
-            console.log (err)
+            console.log(err)
         })
     }
 }
