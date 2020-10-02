@@ -47,6 +47,7 @@ class UserController {
 
     static async searchNews(req, res, next) {
         console.log ('masuk')
+        console.log (req.body)
         try {
             const results = []
 
@@ -57,25 +58,32 @@ class UserController {
                 headers: {Authorization: process.env.NEWS_API}
             })
             // console.log (data1.data.articles)
-            results.push({
-                title: data1.data.articles[0].title,
-                description: data1.data.articles[0].description,
-                publishedAt: data1.data.articles[0].publishedAt.slice(0, 10),
-                news_url: data1.data.articles[0].url
-            })
+            if (data1.data.articles[0].title) {
+                console.log ('1')
+                results.push({
+                    title: data1.data.articles[0].title,
+                    description: data1.data.articles[0].description,
+                    publishedAt: data1.data.articles[0].publishedAt.slice(0, 10),
+                    news_url: data1.data.articles[0].url
+                })
+            }
             
             // currents api
             const data2 = await axios({
                 method: 'get',
                 url: `https://api.currentsapi.services/v1/search?language=en&keywords=${req.body.query}&apiKey=${process.env.CURRENTS_API}`
             })
-            results.push({
-                title: data2.data.news[0].title,
-                description: data2.data.news[0].description,
-                publishedAt: data2.data.news[0].published.slice(0, 10),
-                news_url: data2.data.news[0].url
-            })
-            console.log(results)
+            if (data2.data.articles[0].title) {
+                console.log ('2')
+
+                results.push({
+                    title: data2.data.news[0].title,
+                    description: data2.data.news[0].description,
+                    publishedAt: data2.data.news[0].published.slice(0, 10),
+                    news_url: data2.data.news[0].url
+                })
+            }
+            // console.log(results)
             // news catcher
             const data3 = await axios({
                 method: "get",
@@ -86,12 +94,16 @@ class UserController {
                     "useQueryString": true
                 }
             })
-            results.push({
-                title: data3.data.articles[0].title,
-                description: data3.data.articles[0].summary,
-                publishedAt: data3.data.articles[0].published_date.slice(0, 10),
-                news_url: data3.data.articles[0].link
-            })
+            if (data3.data.articles[0].title) {
+                console.log ('3')
+
+                results.push({
+                    title: data3.data.articles[0].title,
+                    description: data3.data.articles[0].summary,
+                    publishedAt: data3.data.articles[0].published_date.slice(0, 10),
+                    news_url: data3.data.articles[0].link
+                })
+            }
 
             res.status(200).json(results)
 
@@ -101,6 +113,7 @@ class UserController {
     }
 
     static async headline(req, res, next) {
+        console.log ('headline')
         try {
             const results = []
 
@@ -144,8 +157,10 @@ class UserController {
                 publishedAt: data3.data.articles[0].published_date.slice(0, 10),
                 news_url: data3.data.articles[0].link
             })
+            console.log ('>>>>', result)
             res.status(200).json(results)
         } catch(err) {
+            
             next(err)
         }
     }

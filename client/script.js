@@ -190,7 +190,6 @@ function fetchDataBerita () {
         }
     }).done(result => {
         $('#dataBerita').empty()
-
         console.log ('masuik', result)
         $.each(result, function (i, e) { 
              $('#dataBerita').append(`
@@ -225,22 +224,25 @@ function fetchDataBerita () {
 // mencari berita dari inout search
 function searchBerita (event) {
     console.log ('masuk search luar')
+    let judul = $("#cari-berita").val()
+    console.log ('dari judul: ', judul)
+
     event.preventDefault()
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: "http://localhost:3000" + '/news/search',
         headers: {
             access_token: localStorage.access_token
         },
         data: {
-            query: $("#judul-berita").val()
+            query: judul
         }
     }).done( result => {
         console.log (result)
         $('#dataBerita').empty()
         $('.headline').hide()
         $.each(result, (i, e) => {
-            console.log (e)
+            // console.log (e)
             $('#dataBerita').append(`
             <div class="card ">
             <img src="https://www.agfa.com/printing/wp-content/uploads/sites/19/2020/04/newspapers-stack-1to2-600x300.jpg">
@@ -260,7 +262,7 @@ function searchBerita (event) {
         console.log ('masuk error search')
         console.log (err)
     }).always(() => {
-        $("#title-for-user").text('Search result:');
+        console.log ('masuk always')
     })
 }
 
@@ -292,49 +294,8 @@ function searchBerita (event) {
 //         console.log (err)
 //     })
 // }
-
-// Menampilkan semua berita ketika user melihat view all
-function showSavedBerita (event) {
-    $('#dataBerita').empty()
-    $("#title-for-user").text("Collected News")
+function showRecomend(event) {
     event.preventDefault()
-    $.ajax({
-        method: "GET",
-        url: "http://localhost:3000" + '/user/collection',
-        headers: {
-            access_token: localStorage.access_token
-        }
-    }).done( result => {
-        $('#dataBerita').empty()
-        // console.log ('masuik')
-        $.each(result, function (i, e) { 
-             $('#dataBerita').append(`
-             <div class="card headline">
-             <div class="card-header">
-               ${e.publishedAt}
-             </div>
-             <div class="card-body">
-               <h4 class="card-title">${e.title}</h4>
-               <p class="card-text">${e.description}</p>
-               <a href="${e.news_url}" class="btn btn-primary">Baca Berita</a>
-               <a href="#" onclick="saveBeritaForm(event, ${e.id})" class="btn btn-success" class="simpanBerita-${e.id}">Simpan
-                            Berita</a>
-                        <div class="input-group" class="tagInput-${e.id} tagInput">
-                            <input type="text" class="form-control" placeholder="Tag" class="tagFromUser-${e.id}">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button"
-                                    onclick="saveBerita(event, ${e.id})">Simpan</button>
-                            </div>
-                        </div>
-             </div>
-             </div>
-             `);
-       })
-    }).fail(err => {
-        console.log (err)
-    }).always(()=> {
-        $("#title-for-user").text('Your News Collection:');
-    })
 
 }
 
@@ -416,7 +377,3 @@ function saveBerita(event, id) {
     }
 }
 
-function showHeadline(event) {
-    event.preventDefault()
-    fetchDataBerita()
-}
