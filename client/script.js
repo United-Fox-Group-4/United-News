@@ -322,7 +322,9 @@ function showSavedBerita (event) {
               <p class="card-text">${e.description}</p>
               <span class="badge badge-primary">${e.tag}</span>
               <a href="${e.news_url}" class="btn btn-primary">Original Source</a>
-              <a href="#" class="btn btn-primary">Hapus Berita</a>
+              <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="deleteBerita(event, ${e.id})">Hapus</button>
+                </div>
             </div>
             </div>
             `);
@@ -378,3 +380,19 @@ function saveBerita(event, id) {
     }
 }
 
+// Ini untuk hapus berita
+function deleteBerita (event, id) {
+    event.preventDefault()
+    console.log (id)
+    $.ajax({
+        type: "DELETE",
+        url: `http://localhost:3000/user/collection/id/${id}`,
+        headers: {
+            access_token: localStorage.access_token
+        },
+    }).done(result => {
+        showSavedBerita(event)
+    }).fail(err => {
+        console.log (err)
+    })
+}
